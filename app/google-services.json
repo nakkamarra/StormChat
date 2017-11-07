@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "458360860884",
+    "firebase_url": "https://stormchatsju.firebaseio.com",
+    "project_id": "stormchatsju",
+    "storage_bucket": "stormchatsju.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458360860884:android:d311bbaf6b5c5ab4",
+        "android_client_info": {
+          "package_name": "com.stjohns.stormchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458360860884-etjh6dn1n9icv52bagmscdcsaq0hannr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC2G6qFBx7TO6hZ8FK98t1EoqNTHqfBcg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
