@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.*;
 import com.google.firebase.auth.*;
@@ -27,9 +28,11 @@ public class LoginActivity extends Activity {
     @Override
     public void onStart() {
         super.onStart();
+
         FirebaseUser currentUser = loginAuthenticator.getCurrentUser();
         if (currentUser != null){
             startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+            LoginActivity.this.finish();
         }
 
         Button loginButton = (Button) findViewById(R.id.login_button);
@@ -78,7 +81,7 @@ public class LoginActivity extends Activity {
                                 //Display user not email verified
                             }
                         } else {
-                            //Display sign in failed
+                            Toast.makeText(getApplicationContext(),"Failed to login. Check password.",Toast.LENGTH_LONG).show();
                         }
                     }
                 });
