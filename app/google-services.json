@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "458360860884-ajnjlshoesoi3vha1hdl4i9hbgr3sbb2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stjohns.stormchat",
+            "certificate_hash": "84844f5a6b71ec939666077c1ae195fabaaae095"
+          }
+        },
+        {
           "client_id": "458360860884-etjh6dn1n9icv52bagmscdcsaq0hannr.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458360860884-etjh6dn1n9icv52bagmscdcsaq0hannr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

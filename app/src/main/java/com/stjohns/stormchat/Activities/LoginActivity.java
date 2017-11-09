@@ -1,18 +1,22 @@
 package com.stjohns.stormchat.Activities;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PatternMatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.*;
 import com.google.firebase.auth.*;
 import com.stjohns.stormchat.R;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LoginActivity extends Activity {
 
@@ -35,36 +39,47 @@ public class LoginActivity extends Activity {
             LoginActivity.this.finish();
         }
 
-        Button loginButton = (Button) findViewById(R.id.login_button);
-        Button createAccountButton = (Button) findViewById(R.id.create_account_button);
+        Button loginButton = findViewById(R.id.login_button);
+        Button createAccountButton = findViewById(R.id.create_account_button);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createDialog(R.id.login_button).show();
+                if (hasWindowFocus()) {
+                    createDialog(R.id.login_button).show();
+                }
             }
         });
 
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createDialog(R.id.create_account_button).show();
+                if (hasWindowFocus()) {
+                    createDialog(R.id.create_account_button).show();
+                }
             }
         });
     }
 
     public void createAccount(String email, String password){
+        if (passwordIsStrong(password)){
+            Log.e("You made it this far", " but something is still wrong");
         loginAuthenticator.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            loginAuthenticator.getInstance().getCurrentUser().sendEmailVerification();
+                            FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();
                         } else {
-                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LoginActivity.this, "Failed to create account.", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
+        }
+        else
+            Toast.makeText(LoginActivity.this, "Password is not strong enough: " +
+                            "Must be 6 or more characters long and contain at least one instance of a digit.",
+                            Toast.LENGTH_LONG).show();
     }
 
     public void logIn(String email, String password){
@@ -78,61 +93,79 @@ public class LoginActivity extends Activity {
                                 LoginActivity.this.finish();
                             }
                             else{
-                                //Display user not email verified
+                                Toast.makeText(LoginActivity.this, "Email address not verified. Verify email and try again.", Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(),"Failed to login. Check password.",Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this,"Failed to login. Double check internet connection and credentials and try again.",Toast.LENGTH_LONG).show();
                         }
                     }
                 });
     }
 
-    public AlertDialog createDialog(int id){
-        final EditText emailField = new EditText(this);
-        final EditText passwordField = new EditText(this);
-        emailField.setMaxLines(1);
-        passwordField.setMaxLines(1);
+    public Dialog createDialog(int id){
+        final Dialog loginDialog = new Dialog(LoginActivity.this);
 
-        LinearLayout inputs = new LinearLayout(this);
-        inputs.setOrientation(LinearLayout.VERTICAL);
-        inputs.addView(emailField);
-        inputs.addView(passwordField);
+        loginDialog.setContentView(R.layout.login_dialog);
 
-        AlertDialog.Builder inputDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-        inputDialogBuilder.setView(inputs);
+        final EditText emailField = loginDialog.findViewById(R.id.login_email_field);
+        final EditText passwordField = loginDialog.findViewById(R.id.login_password_field);
+        final TextView dialogTitle = loginDialog.findViewById(R.id.login_dialog_title);
+        final TextView dialogMessage = loginDialog.findViewById(R.id.login_dialog_message);
+        final Button dialogPositiveButton = loginDialog.findViewById(R.id.login_dialog_positive);
+        final Button dialogNegativeButton = loginDialog.findViewById(R.id.login_dialog_negative);
+
         switch (id){
             case R.id.login_button:
-                inputDialogBuilder.setTitle("Log In");
-                inputDialogBuilder.setMessage("Please provide your credentials:");
-                inputDialogBuilder.setPositiveButton("Log In", new DialogInterface.OnClickListener() {
+                dialogTitle.setText(R.string.log_in);
+                dialogMessage.setText(R.string.login_message);
+                dialogPositiveButton.setText(R.string.log_in);
+                dialogPositiveButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
                         logIn(emailField.getText().toString(), passwordField.getText().toString());
+                        loginDialog.dismiss();
                     }
                 });
                 break;
             case R.id.create_account_button:
-                inputDialogBuilder.setTitle("Create Account");
-                inputDialogBuilder.setMessage("Use your St. John's University email to create an account." +
-                        "A verification email will be sent to the specified address. Once verified, you will" +
-                        "be able to sign in using your new credentials." );
-                inputDialogBuilder.setPositiveButton("Create Account", new DialogInterface.OnClickListener() {
+                dialogTitle.setText(R.string.create_account);
+                dialogMessage.setText(R.string.create_account_message );
+                dialogPositiveButton.setText(R.string.create_account);
+                dialogPositiveButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
                         createAccount(emailField.getText().toString(), passwordField.getText().toString());
+                        loginDialog.dismiss();
                     }
                 });
                 break;
         }
 
-        inputDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        dialogNegativeButton.setText(R.string.cancel);
+        dialogNegativeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+            public void onClick(View v) {
+                loginDialog.dismiss();
             }
         });
 
-        return inputDialogBuilder.create();
+        loginDialog.setCancelable(true);
+        loginDialog.setCanceledOnTouchOutside(true);
+
+        return loginDialog;
     }
 
+    public boolean passwordIsStrong(String password){
+       boolean valid = false;
+       int digitCount = 0;
+       for (char letter : password.toCharArray()){
+           if (Character.isDigit(letter)){
+               digitCount++;
+           }
+       }
+       if(password.length() > 6 && digitCount >= 1){
+           valid = true;
+       }
+       return valid;
+    }
 }
