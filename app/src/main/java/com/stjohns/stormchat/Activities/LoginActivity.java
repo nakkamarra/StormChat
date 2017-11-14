@@ -104,7 +104,6 @@ public class LoginActivity extends Activity {
 
     public Dialog createDialog(int id){
         final Dialog loginDialog = new Dialog(LoginActivity.this);
-
         loginDialog.setContentView(R.layout.login_dialog);
 
         final EditText emailField = loginDialog.findViewById(R.id.login_email_field);

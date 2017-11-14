@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">StormChat</string>
     <string name="log_in">Log In</string>
+    <string name="log_out">Log Out</string>
     <string name="cancel">Cancel</string>
     <string name="create_account">Register</string>
     <string name="login_message">Please provide your Storm Chat log in credentials.
@@ -8,4 +9,9 @@
     <string name="create_account_message">Use your St. John\'s University email to create an account.
         A verification email will be sent to the specified address.
         Once verified, you will be able to sign in using your new credentials.</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="profile">Profile</string>
+    <string name="search">Search</string>
+    <string name="settings">Settings</string>
 </resources>
