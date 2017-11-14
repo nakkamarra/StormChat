@@ -89,14 +89,18 @@ public class LoginActivity extends Activity {
                     public void onComplete(Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             if (loginAuthenticator.getCurrentUser().isEmailVerified()){
-                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                 LoginActivity.this.finish();
                             }
                             else{
-                                Toast.makeText(LoginActivity.this, "Email address not verified. Verify email and try again.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this,
+                                        "Email address not verified. Verify email and try again.",
+                                        Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Toast.makeText(LoginActivity.this,"Failed to login. Double check internet connection and credentials and try again.",Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this,
+                                    "Failed to login. Double check internet connection and credentials and try again.",
+                                    Toast.LENGTH_LONG).show();
                         }
                     }
                 });

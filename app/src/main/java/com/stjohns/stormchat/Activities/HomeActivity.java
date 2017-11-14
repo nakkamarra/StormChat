@@ -6,17 +6,16 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.stjohns.stormchat.Objects.User.User;
 import com.stjohns.stormchat.R;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private User operatingUser;
     private FirebaseAuth userAuthenticator;
     private DrawerLayout homeDrawer;
     private ActionBarDrawerToggle showMenu;
@@ -47,14 +46,18 @@ public class HomeActivity extends AppCompatActivity {
                 String title = menuItem.getTitle().toString();
                 switch (title) {
                     case "Profile":
+                        startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+                        HomeActivity.this.finish();
                         break;
                     case "Search":
+                        startActivity(new Intent(HomeActivity.this, SearchActivity.class));
+                        HomeActivity.this.finish();
                         break;
                     case "Settings":
                         break;
                     case "Log Out":
                         userAuthenticator.signOut();
-                        startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                         HomeActivity.this.finish();
                         break;
                 }
@@ -71,4 +74,5 @@ public class HomeActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
