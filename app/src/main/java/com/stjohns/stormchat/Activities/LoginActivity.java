@@ -63,7 +63,6 @@ public class LoginActivity extends Activity {
 
     public void createAccount(String email, String password){
         if (passwordIsStrong(password)){
-            Log.e("You made it this far", " but something is still wrong");
         loginAuthenticator.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
