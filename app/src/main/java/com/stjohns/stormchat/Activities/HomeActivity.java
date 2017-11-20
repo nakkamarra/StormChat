@@ -7,7 +7,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -66,16 +66,25 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-//        LinearLayout menuHeader = new LinearLayout(this);
-//        menuHeader.findViewById(R.id.menu_header);
-//
-//        TextView navDrawProfileName = menuHeader.findViewById(R.id.menu_profile_name);
-//        TextView navDrawProfileEmail = menuHeader.findViewById(R.id.menu_profile_email);
-//
-//        navDrawProfileName.setText(R.string.user_name);
-//        navDrawProfileEmail.setText(currentUser.getEmail());
+        ImageView navDrawProfileImage = homeNavView.getHeaderView(0).findViewById(R.id.menu_profile_image);
+        TextView navDrawProfileName = homeNavView.getHeaderView(0).findViewById(R.id.menu_profile_name);
+        TextView navDrawProfileEmail =  homeNavView.getHeaderView(0).findViewById(R.id.menu_profile_email);
 
 
+        if (currentUser.getDisplayName() == null)
+            navDrawProfileName.setText(R.string.user_name_default);
+        else
+            navDrawProfileName.setText(currentUser.getDisplayName());
+
+        if (currentUser.getEmail() == null)
+            navDrawProfileEmail.setText(R.string.email_default);
+        else
+            navDrawProfileEmail.setText(currentUser.getEmail());
+
+        if (currentUser.getPhotoUrl() == null)
+            navDrawProfileImage.setImageResource(R.drawable.user);
+        else
+            navDrawProfileImage.setImageURI(currentUser.getPhotoUrl());
 
     }
 

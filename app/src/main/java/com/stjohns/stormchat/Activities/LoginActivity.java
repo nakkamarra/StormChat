@@ -3,8 +3,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PatternMatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,9 +12,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.*;
 import com.google.firebase.auth.*;
 import com.stjohns.stormchat.R;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LoginActivity extends Activity {
 
@@ -63,22 +58,24 @@ public class LoginActivity extends Activity {
 
     public void createAccount(String email, String password){
         if (passwordIsStrong(password)){
-        loginAuthenticator.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Failed to create account.", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+            if (emailIsSjuDomain(email)){
+                loginAuthenticator.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, R.string.create_account_failed, Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+            }
+            else
+                Toast.makeText(LoginActivity.this, R.string.invalid_email_domain, Toast.LENGTH_LONG).show();
         }
         else
-            Toast.makeText(LoginActivity.this, "Password is not strong enough: " +
-                            "Must be 6 or more characters long and contain at least one instance of a digit.",
-                            Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, R.string.weak_password, Toast.LENGTH_LONG).show();
     }
 
     public void logIn(String email, String password){
@@ -92,14 +89,10 @@ public class LoginActivity extends Activity {
                                 LoginActivity.this.finish();
                             }
                             else{
-                                Toast.makeText(LoginActivity.this,
-                                        "Email address not verified. Verify email and try again.",
-                                        Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, R.string.email_not_verified, Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Toast.makeText(LoginActivity.this,
-                                    "Failed to login. Double check internet connection and credentials and try again.",
-                                    Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, R.string.log_in_failed, Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -159,15 +152,25 @@ public class LoginActivity extends Activity {
 
     public boolean passwordIsStrong(String password){
        boolean valid = false;
-       int digitCount = 0;
-       for (char letter : password.toCharArray()){
-           if (Character.isDigit(letter)){
-               digitCount++;
+           int digitCount = 0;
+           for (char letter : password.toCharArray()){
+               if (Character.isDigit(letter)){
+                   digitCount++;
+               }
            }
-       }
-       if(password.length() > 6 && digitCount >= 1){
-           valid = true;
-       }
+           if(password.length() > 6 && digitCount >= 1){
+               valid = true;
+           }
        return valid;
+    }
+
+    public boolean emailIsSjuDomain(String email){
+        boolean valid = false;
+            if (email.indexOf('@') != -1){
+                String emailSubstring = email.substring(email.indexOf('@'), email.length());
+                if (emailSubstring.equalsIgnoreCase("@stjohns.edu"))
+                    valid = true;
+            }
+        return valid;
     }
 }

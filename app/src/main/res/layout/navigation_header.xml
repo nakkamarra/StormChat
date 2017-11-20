@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="4dp"
-        android:text="John Doe"
+        android:text="@string/user_name_default"
         android:textSize="22sp"
         android:textStyle="bold"
         android:textAlignment="center"/>
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="8dp"
-        android:text="emailAddresss@domain.com"
+        android:text="@string/email_default"
         android:textSize="16sp"
         android:textAlignment="center"/>
 

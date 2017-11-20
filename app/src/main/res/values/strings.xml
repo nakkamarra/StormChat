@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">StormChat</string>
-    <string name="user_name">Nick Brandt</string>
+    <string name="user_name_default">Default User</string>
+    <string name="email_default">Email Address</string>
     <string name="log_in">Log In</string>
     <string name="log_out">Log Out</string>
     <string name="cancel">Cancel</string>
@@ -10,6 +11,15 @@
     <string name="create_account_message">Use your St. John\'s University email to create an account.
         A verification email will be sent to the specified address.
         Once verified, you will be able to sign in using your new credentials.</string>
+    <string name="invalid_email_domain">You must use a St. John\'s University email.</string>
+    <string name="weak_password">Password is not strong enough:
+        Must contain a minimum of 6 characters and at least one instance of a digit.</string>
+    <string name="create_account_failed">Failed to create account. Are you connected to the internet?
+        Account may already exist.</string>
+    <string name="log_in_failed">Failed to log in. Are you connected to the internet?
+        Credentials may not have been correct.</string>
+    <string name="email_not_verified">Email address not verified.
+        Verify email and try to log in again.</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="profile">Profile</string>
