@@ -1,39 +1,47 @@
 package com.stjohns.stormchat.Objects.Chat;
 
+import com.stjohns.stormchat.Objects.Message.Message;
+import com.stjohns.stormchat.Objects.User.User;
+
+import java.util.ArrayList;
+
 /**
  * Created by nick on 11/6/17.
  */
 
 public class Chat {
-    private String message;
-    private String sender;
-    private String recipient;
+    private ArrayList<Message> conversation;
+    private ArrayList<User> members;
+    private User owner;
 
-    private int mRecipientOrSenderStatus;
-    public Chat()
+    public Chat(ArrayList<Message> conversation, ArrayList<User> members, User owner)
     {
+        this.conversation = conversation;
+        this.members = members;
+        this.owner = owner;
+    }
 
+    public ArrayList<Message> getConversation() {
+        return conversation;
     }
-    public Chat(String message, String sender, String recipient)
-    {
-        this.message=message;
-        this.recipient=recipient;
-        this.sender=sender;
+
+    public void setConversation(ArrayList<Message> conversation) {
+        this.conversation = conversation;
     }
-    public int getmRecipientOrSenderStatus()
-    {
-        return mRecipientOrSenderStatus;
+
+    public ArrayList<User> getMembers() {
+        return members;
     }
-    public String getMessage()
-    {
-        return message;
+
+    public void setMembers(ArrayList<User> members) {
+        this.members = members;
     }
-    public String getSender()
-    {
-        return sender;
+
+    public User getOwner() {
+        return owner;
     }
-    public String getRecipient()
-    {
-        return recipient;
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }
