@@ -65,6 +65,9 @@ public class LoginActivity extends Activity {
                             public void onComplete(Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();
+                                    /////////// INSTANTIATE A USER OBJECT AND SEND TO DATABASE /////////////
+
+                                    ///////////////////////////////////////////////////////////////////////
                                 } else {
                                     Toast.makeText(LoginActivity.this, R.string.create_account_failed, Toast.LENGTH_LONG).show();
                                 }
