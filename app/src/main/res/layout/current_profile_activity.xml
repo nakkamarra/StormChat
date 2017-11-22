@@ -1,6 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorAccent"
+    android:weightSum="1"
+    tools:context="com.stjohns.stormchat.Activities.ProfileActivity">>
+
+    <LinearLayout
+        android:id="@+id/userLayoutOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/userProfileImageView"
+            android:layout_width="129dp"
+            android:layout_height="112dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/profile"
+            android:src="@drawable/user" />
+
+
+        <Button
+            android:id="@+id/userChangeImage"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_marginLeft="-125dp"
+            android:layout_marginTop="130dp"
+            android:background="@drawable/roundbuttoncolored"
+            android:text="Change Image"
+            android:textColor="@color/black"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="106dp"
+            android:layout_height="34dp"
+            android:text=" Edit Profile"
+            android:textColor="@color/black"
+            android:textSize="17dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="281dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/userProfileStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="25dp"
+            android:hint="STATUS"
+            android:padding="15dp"
+            android:textAlignment="center"
+            android:textColorHint="#ffffff" />
+
+        <EditText
+            android:id="@+id/userProfileName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="UserName: "
+            android:padding="15dp"
+            android:textColorHint="#ffffff" />
+
+        <EditText
+            android:id="@+id/college_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="College: "
+            android:padding="15dp"
+            android:maxLines="1"
+            android:textColorHint="@color/white" />
+
+
+        <EditText
+            android:id="@+id/major_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_weight="1"
+            android:hint="Major: "
+            android:maxLines="1"
+            android:textColorHint="@color/white" />
+        <TextView
+            android:id="@+id/login_email_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_weight="1"
+            android:hint="Email Address: "
+            android:textColorHint="@color/black" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/saveProfile"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="300dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/check"
+        android:gravity="center"
+        android:padding="7dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+    </LinearLayout>
 
 </LinearLayout>

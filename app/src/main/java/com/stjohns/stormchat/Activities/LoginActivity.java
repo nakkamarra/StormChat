@@ -8,17 +8,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.*;
 import com.google.firebase.auth.*;
 import com.stjohns.stormchat.R;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity
+{
 
     private FirebaseAuth loginAuthenticator;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
         loginAuthenticator = FirebaseAuth.getInstance();

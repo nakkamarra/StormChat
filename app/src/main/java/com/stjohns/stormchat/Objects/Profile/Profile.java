@@ -7,7 +7,8 @@ import com.stjohns.stormchat.Objects.User.User;
  * Created by nick on 11/6/17.
  */
 
-public class Profile {
+public class Profile
+{
 
     private User user;
 
