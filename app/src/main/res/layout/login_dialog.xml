@@ -45,6 +45,7 @@
             android:layout_marginRight="14dp"
             android:inputType="textEmailAddress"
             android:maxLines="1"
+            android:imeActionId="5"
             android:hint="Email Address"/>
 
         <EditText
@@ -56,6 +57,7 @@
             android:layout_marginRight="14dp"
             android:inputType="textPassword"
             android:maxLines="1"
+            android:imeActionId="6"
             android:hint="Password"/>
 
         <LinearLayout
