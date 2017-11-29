@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -34,7 +35,7 @@ public class ProfileActivity extends Activity
     EditText userNameEditText, userStatusEditText, userCollegeEditText, userMajorEditText;
     ImageView userPic;
     Button userChangeImage;
-    LinearLayout saveProfilePage;
+    ImageButton saveProfilePage;
 
     FirebaseAuth authUser;
     FirebaseAuth.AuthStateListener authUserListener;
@@ -60,7 +61,7 @@ public class ProfileActivity extends Activity
         userMajorEditText =findViewById(R.id.major_field);
         userChangeImage=findViewById(R.id.userChangeImage);
         userPic = findViewById(R.id.userProfileImageView);
-        saveProfilePage =findViewById(R.id.saveProfile);
+        saveProfilePage = findViewById(R.id.saveProfile);
 
         authUser = FirebaseAuth.getInstance();
 
@@ -167,7 +168,7 @@ public class ProfileActivity extends Activity
                 {
                     cameraIntent();
                 }
-                else if (items[item].equals("Choose from Library"))
+                else if (items[item].equals("Choose from Device"))
                 {
                     galleryIntent();
                 }
@@ -181,14 +182,14 @@ public class ProfileActivity extends Activity
 
     private void cameraIntent()
     {
-        Log.d("gola", "entered here");
+        Log.e("Goal", "Take Photo");
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
     private void galleryIntent()
     {
-        Log.d("gola", "entered here");
+        Log.e("Goal", "Selected Photo");
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, SELECT_FILE);
@@ -222,5 +223,12 @@ public class ProfileActivity extends Activity
                 Exception error = result.getError();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent whereToGo = new Intent(ProfileActivity.this, HomeActivity.class);
+        ProfileActivity.this.finish();
+        startActivity(whereToGo);
     }
 }

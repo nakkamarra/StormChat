@@ -45,7 +45,6 @@
             android:layout_marginRight="14dp"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:imeActionId="5"
             android:hint="Email Address"/>
 
         <EditText
