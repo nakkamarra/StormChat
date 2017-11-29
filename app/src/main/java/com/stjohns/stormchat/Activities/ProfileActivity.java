@@ -54,7 +54,7 @@ public class ProfileActivity extends Activity
     public void onStart()
     {
         super.onStart();
-        userNameEditText =findViewById(R.id.userProfileName);
+        userNameEditText =findViewById(R.id.userProfileName); // findViewById(int) retrieves the widgets in that UI that you need to interact with programmatically.
         userStatusEditText =findViewById(R.id.userProfileStatus);
         userCollegeEditText =findViewById(R.id.college_field);
         userMajorEditText =findViewById(R.id.major_field);
@@ -64,18 +64,14 @@ public class ProfileActivity extends Activity
 
         authUser = FirebaseAuth.getInstance();
 
-        authUserListener = new FirebaseAuth.AuthStateListener()
+        authUserListener = new FirebaseAuth.AuthStateListener() //Listener called when there is a change in the authentication state.
         {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
             {
-
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-
                 if (user != null)
                 {
-
-                    finish();
                     startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
                     ProfileActivity.this.finish();
                 }
@@ -92,7 +88,8 @@ public class ProfileActivity extends Activity
             @Override
             public void onClick(View v)
             {
-                if (hasWindowFocus()) {
+                if (hasWindowFocus())
+                {
                     saveUserProfile();
                 }
             }
@@ -115,7 +112,7 @@ public class ProfileActivity extends Activity
         final String college = userCollegeEditText.getText().toString().trim();
         final String major= userMajorEditText.getText().toString().trim();
 
-        if( !TextUtils.isEmpty(username) && !TextUtils.isEmpty(userStatus))
+        if( !TextUtils.isEmpty(username) && !TextUtils.isEmpty(major) && !TextUtils.isEmpty(college))
         {
            if( imageHoldUri != null )
             {
@@ -138,8 +135,6 @@ public class ProfileActivity extends Activity
                         userDB.child("imageurl").setValue(imageUrl.toString());
 
                         mProgress.dismiss();
-
-                        finish();
                         startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
                         ProfileActivity.this.finish();
                     }
@@ -152,15 +147,14 @@ public class ProfileActivity extends Activity
         }
         else
         {
-            Toast.makeText(ProfileActivity.this, "Please enter username and status", Toast.LENGTH_LONG).show();
+            Toast.makeText(ProfileActivity.this, "Please enter username, college, and major", Toast.LENGTH_LONG).show();
         }
 
     }
 
     private void selectPic()
     {
-        final CharSequence[] items = {"Take Photo", "Choose from Library",
-                "Cancel"};
+        final CharSequence[] items = {"Take Photo", "Choose from Device", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
         builder.setTitle("Add Photo!");
 
@@ -222,7 +216,6 @@ public class ProfileActivity extends Activity
             if (resultCode == RESULT_OK)
             {
                 imageHoldUri = result.getUri();
-
                 userPic.setImageURI(imageHoldUri);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE)
             {
