@@ -13,4 +13,7 @@ public class ChatActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_activity);
     }
-}
+    public void onStart()
+    {
+        super.onStart();
+}}
