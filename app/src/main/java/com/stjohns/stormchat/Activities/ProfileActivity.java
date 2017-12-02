@@ -15,13 +15,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -36,13 +38,13 @@ public class ProfileActivity extends Activity
     ImageView userPic;
     Button userChangeImage;
     ImageButton saveProfilePage;
-
+    FirebaseDatabase database=FirebaseDatabase.getInstance();
+    DatabaseReference userDB;
     FirebaseAuth authUser;
     FirebaseAuth.AuthStateListener authUserListener;
-
-    DatabaseReference userDB;
     StorageReference storageRef;
     Uri imageHoldUri = null;
+
 
     ProgressDialog mProgress;
 
@@ -218,6 +220,7 @@ public class ProfileActivity extends Activity
             {
                 imageHoldUri = result.getUri();
                 userPic.setImageURI(imageHoldUri);
+
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE)
             {
                 Exception error = result.getError();
