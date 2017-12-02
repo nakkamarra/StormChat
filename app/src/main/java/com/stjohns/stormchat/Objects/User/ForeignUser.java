@@ -13,7 +13,7 @@ public class ForeignUser extends User
     private boolean userIsForeign = false;
 
     public ForeignUser(FirebaseAuth userAuth, User user) {
-        super(user.getName(),user.getEmail(),user.getImagePath(),user.getBio(),user.getUUID());
+        super(user.getName(),user.getEmail(),user.getImagePath(),user.getBio(),user.getUUID(), user.getMajor(), user.getCollege());
         currUser = userAuth.getCurrentUser();
         if (currUser.getUid() != user.getUUID()){
             userIsForeign = true;

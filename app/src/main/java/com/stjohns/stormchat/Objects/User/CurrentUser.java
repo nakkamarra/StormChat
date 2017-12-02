@@ -16,18 +16,21 @@ public class CurrentUser extends User {
 
     private FirebaseUser currUser;
     private boolean userIsCurrent = false;
-
-    public CurrentUser(FirebaseAuth userAuth, User user) {
-        DatabaseReference userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(userAuth.getCurrentUser().getUid());
-        DataSnapshot snapshot;
+        public CurrentUser(FirebaseAuth userAuth, User user)
+        {
+            super(user.getName(),user.getEmail(),user.getImagePath(),user.getBio(),user.getUUID(), user.getMajor(), user.getCollege());
+            DatabaseReference userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(userAuth.getCurrentUser().getUid());
+            DataSnapshot snapshot;
 //        super(userAuth, new User (snapshot.child("username").getValue(String.class)));
-        currUser = userAuth.getCurrentUser();
-        if (currUser.getUid() == user.getUUID()){
-            userIsCurrent = true;
+            currUser = userAuth.getCurrentUser();
+            if (currUser.getUid() == user.getUUID())
+            {
+                userIsCurrent = true;
+            }
         }
-    }
 
-    public boolean isUserIsCurrent() {
+    public boolean isUserIsCurrent()
+    {
         return userIsCurrent;
     }
 }

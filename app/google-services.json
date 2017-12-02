@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "458360860884-16v99oa7el8cqij38f7ojp00ohrmkfdc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stjohns.stormchat",
+            "certificate_hash": "6a8d8e510099867aa30c8a56d028dddc7296fb2a"
+          }
+        },
+        {
           "client_id": "458360860884-ajnjlshoesoi3vha1hdl4i9hbgr3sbb2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -27,7 +27,7 @@
             android:textStyle="bold" />
 
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userProfileImageView"
             android:layout_width="96dp"
             android:layout_height="96dp"
@@ -119,17 +119,30 @@
 
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/saveProfile"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            android:layout_gravity="right"
+            android:background="@drawable/rounded_image_transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/check"/>
 
-    <ImageButton
-        android:id="@+id/saveProfile"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_margin="8dp"
-        android:layout_gravity="center"
-        android:background="@drawable/rounded_image_transparent"
-        android:scaleType="fitCenter"
-        android:src="@drawable/check">
+        <ImageButton
+            android:id="@+id/goBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            android:layout_gravity="left"
+            android:background="@drawable/rounded_image_transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back"/>
 
-    </ImageButton>
+    </LinearLayout>
 
 </LinearLayout>
