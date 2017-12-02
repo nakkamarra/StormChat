@@ -87,7 +87,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                String displayName=dataSnapshot.child("major").getValue().toString();
+                String displayName=dataSnapshot.child("username").getValue().toString();
                 navDrawProfileName.setText(displayName);
                 String displayPic=dataSnapshot.child("imageurl").getValue().toString();
                 Picasso.with(HomeActivity.this).load(displayPic).placeholder(R.drawable.user).into(navDrawProfileImage);
