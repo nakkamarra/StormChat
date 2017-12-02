@@ -2,6 +2,10 @@
     <string name="app_name">StormChat</string>
     <string name="user_name_default">Default User</string>
     <string name="email_default">Email Address</string>
+    <string name="college">College</string>
+    <string name="major">Major</string>
+    <string name="status">Status</string>
+    <string name="imageURL">Image URL</string>
     <string name="log_in">Log In</string>
     <string name="log_out">Log Out</string>
     <string name="cancel">Cancel</string>
