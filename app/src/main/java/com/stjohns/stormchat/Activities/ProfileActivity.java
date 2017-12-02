@@ -10,7 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -36,8 +35,7 @@ public class ProfileActivity extends Activity
     private static final int SELECT_FILE = 2;
     EditText userNameEditText, userStatusEditText, userCollegeEditText, userMajorEditText;
     ImageView userPic;
-    Button userChangeImage;
-    ImageButton saveProfilePage,backButton;
+    ImageButton userChangeImage, saveProfilePage,backButton;
     FirebaseAuth authUser;
     FirebaseAuth.AuthStateListener authUserListener;
     StorageReference storageRef;

@@ -36,16 +36,15 @@
             android:background="@drawable/rounded_image_transparent"
             android:src="@drawable/user" />
 
-        <Button
+        <ImageButton
             android:id="@+id/userChangeImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_margin="8dp"
-            android:background="@drawable/roundbuttontransparent"
-            android:text="Change Image"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_image_transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/photo" />
     </LinearLayout>
 
     <LinearLayout
@@ -100,7 +99,6 @@
             android:textColorHint="@color/white"
             android:backgroundTint="@color/white" />
 
-
         <EditText
             android:id="@+id/major_field"
             android:layout_width="match_parent"
@@ -128,7 +126,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="8dp"
-            android:layout_gravity="right"
+            android:layout_gravity="center"
             android:background="@drawable/rounded_image_transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/check"/>
@@ -138,7 +136,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="8dp"
-            android:layout_gravity="left"
+            android:layout_gravity="center"
             android:background="@drawable/rounded_image_transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/back"/>
