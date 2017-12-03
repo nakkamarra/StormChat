@@ -36,16 +36,15 @@
             android:background="@drawable/rounded_image_transparent"
             android:src="@drawable/user" />
 
-        <Button
+        <ImageButton
             android:id="@+id/userChangeImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_margin="8dp"
-            android:background="@drawable/roundbuttontransparent"
-            android:text="Change Image"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_image_transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/photo" />
     </LinearLayout>
 
     <LinearLayout
@@ -62,7 +61,7 @@
             android:layout_weight="1"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:hint="Status:"
+            android:hint="@string/status"
             android:inputType="text"
             android:maxLines="1"
             android:textSize="18sp"
@@ -77,7 +76,7 @@
             android:layout_weight="1"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:hint="Name: "
+            android:hint="@string/user_name_default"
             android:inputType="text"
             android:maxLines="1"
             android:textSize="18sp"
@@ -92,14 +91,13 @@
             android:layout_weight="1"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:hint="College: "
+            android:hint="@string/college"
             android:inputType="text"
             android:maxLines="1"
             android:textSize="18sp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:backgroundTint="@color/white" />
-
 
         <EditText
             android:id="@+id/major_field"
@@ -109,7 +107,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:inputType="text"
-            android:hint="Major: "
+            android:hint="@string/major"
             android:maxLines="1"
             android:imeActionId="6"
             android:textColor="@color/white"
@@ -128,7 +126,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="8dp"
-            android:layout_gravity="right"
+            android:layout_gravity="center"
             android:background="@drawable/rounded_image_transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/check"/>
@@ -138,7 +136,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="8dp"
-            android:layout_gravity="left"
+            android:layout_gravity="center"
             android:background="@drawable/rounded_image_transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/back"/>
