@@ -58,9 +58,9 @@ public class HomeActivity extends AppCompatActivity {
                     case "Profile":
                         whereToGo = new Intent(HomeActivity.this, ProfileActivity.class);
                         break;
-                    case "Search":
-                        whereToGo = new Intent(HomeActivity.this, SearchActivity.class);
-                        break;
+//                    case "Search":
+//                        whereToGo = new Intent(HomeActivity.this, SearchActivity.class);
+//                        break;
                     case "Maurice's Button":
                         whereToGo = new Intent(HomeActivity.this, ChatActivity.class);
                         break;
