@@ -63,9 +63,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
-                android:text="Status:"
+                android:text="Status: "
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textAlignment="center"/>
@@ -87,50 +86,99 @@
             
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/userProfileName"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:hint="@string/user_name_default"
-            android:inputType="text"
-            android:maxLines="1"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:backgroundTint="@color/white" />
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/college_field"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:hint="@string/college"
-            android:inputType="text"
-            android:maxLines="1"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:backgroundTint="@color/white" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Name: "
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textAlignment="center"/>
 
-        <EditText
-            android:id="@+id/major_field"
+            <EditText
+                android:id="@+id/userProfileName"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:hint="@string/user_name_default"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:backgroundTint="@color/white"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:inputType="text"
-            android:hint="@string/major"
-            android:maxLines="1"
-            android:imeActionId="6"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:backgroundTint="@color/white" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="College:"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textAlignment="center"/>
+
+            <EditText
+                android:id="@+id/college_field"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:hint="@string/college"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:backgroundTint="@color/white"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Major: "
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textAlignment="center"/>
+
+            <EditText
+                android:id="@+id/major_field"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:hint="@string/major"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:backgroundTint="@color/white"/>
+        </LinearLayout>
+
 
 
 
