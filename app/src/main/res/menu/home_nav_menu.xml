@@ -17,6 +17,11 @@
         android:icon="@drawable/settings" />
 
     <item
+        android:id="@+id/toChatAct"
+        android:title="Maurice's Button"
+        android:icon="@drawable/settings" />
+
+    <item
         android:id="@+id/logout"
         android:title="@string/log_out"
         android:icon="@drawable/logout" />

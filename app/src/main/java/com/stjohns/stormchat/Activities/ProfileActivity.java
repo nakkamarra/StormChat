@@ -42,7 +42,7 @@ public class ProfileActivity extends Activity
     Uri imageHoldUri = null;
 
     FirebaseDatabase database=FirebaseDatabase.getInstance();
-    DatabaseReference userDB=database.getReference("https://stormchatsju/").child("Users");
+    DatabaseReference userDB= database.getReference("https://stormchatsju/").child("Users");
     ProgressDialog appProgress;
 
     @Override

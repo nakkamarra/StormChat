@@ -10,6 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.*;
 import com.google.firebase.auth.*;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.stjohns.stormchat.Objects.User.User;
 import com.stjohns.stormchat.R;
 
 public class LoginActivity extends Activity
@@ -65,9 +68,18 @@ public class LoginActivity extends Activity
                             @Override
                             public void onComplete(Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();
+                                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                                    currentUser.sendEmailVerification();
                                     /////////// INSTANTIATE A USER OBJECT AND SEND TO DATABASE /////////////
-
+                                    User dummyUser = new User(
+                                            "N/A",
+                                            currentUser.getEmail(),
+                                            "https://firebasestorage.googleapis.com/v0/b/stormchatsju.appspot.com/o/User_Profile%2Fuser.png?alt=media&token=07de37e6-6672-4f6a-9677-82a877c29ec3",
+                                            "I'm using StormChat! Send me a Message!",
+                                            currentUser.getUid(),
+                                            "N/A",
+                                            "N/A");
+                                    createUserInDatabase(dummyUser, currentUser);
                                     ///////////////////////////////////////////////////////////////////////
                                 } else {
                                     Toast.makeText(LoginActivity.this, R.string.create_account_failed, Toast.LENGTH_LONG).show();
@@ -176,5 +188,17 @@ public class LoginActivity extends Activity
                     valid = true;
             }
         return valid;
+    }
+
+    public void createUserInDatabase(User u, FirebaseUser currentFBUser){
+        FirebaseDatabase database=FirebaseDatabase.getInstance();
+        DatabaseReference userDB = database.getReference("https://stormchatsju/").child("Users");
+        userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(currentFBUser.getUid());
+        userDB.child("email").setValue(u.getEmail());
+        userDB.child("username").setValue(u.getName());
+        userDB.child("status").setValue(u.getBio());
+        userDB.child("college").setValue(u.getMajor());
+        userDB.child("major").setValue(u.getMajor());
+        userDB.child("imageurl").setValue(u.getImagePath());
     }
 }
