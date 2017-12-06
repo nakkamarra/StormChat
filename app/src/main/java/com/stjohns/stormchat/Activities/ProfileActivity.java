@@ -4,17 +4,24 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +42,8 @@ public class ProfileActivity extends Activity
     private static final int SELECT_FILE = 2;
     EditText userNameEditText, userStatusEditText, userCollegeEditText, userMajorEditText;
     ImageView userPic;
-    ImageButton userChangeImage, saveProfilePage,backButton;
+    ImageButton userChangeImage, saveProfilePage;
+    Button deleteAccount;
     FirebaseAuth authUser;
     FirebaseAuth.AuthStateListener authUserListener;
     StorageReference storageRef;
@@ -61,7 +69,7 @@ public class ProfileActivity extends Activity
         userChangeImage = findViewById(R.id.userChangeImage);
         userPic = findViewById(R.id.userProfileImageView);
         saveProfilePage = findViewById(R.id.saveProfile);
-        backButton = findViewById(R.id.goBack);
+        deleteAccount = findViewById(R.id.delete_account);
         authUser = FirebaseAuth.getInstance();
 
         userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(authUser.getCurrentUser().getUid());
@@ -113,14 +121,14 @@ public class ProfileActivity extends Activity
                 }
             }
         });
-        backButton.setOnClickListener(new View.OnClickListener()
+        deleteAccount.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 if (hasWindowFocus())
                 {
-                    onBackPressed();
+                    deleteAccount();
                 }
             }
         });
@@ -135,25 +143,20 @@ public class ProfileActivity extends Activity
         });
     }
 
-    private void saveUserProfile()
-    {
+    private void saveUserProfile() {
         final String username = userNameEditText.getText().toString().trim();
         final String userStatus = userStatusEditText.getText().toString().trim();
         final String college = userCollegeEditText.getText().toString().trim();
-        final String major= userMajorEditText.getText().toString().trim();
+        final String major = userMajorEditText.getText().toString().trim();
 
-        if( !TextUtils.isEmpty(username) && !TextUtils.isEmpty(major) && !TextUtils.isEmpty(college))
-        {
-           if( imageHoldUri != null )
-            {
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(major) && !TextUtils.isEmpty(college)) {
+            if (imageHoldUri != null) {
                 appProgress.setTitle("Saving Profile");
                 appProgress.show();
                 StorageReference mChildStorage = storageRef.child("User_Profile").child(imageHoldUri.getLastPathSegment());
-                mChildStorage.putFile(imageHoldUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
-                {
+                mChildStorage.putFile(imageHoldUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
-                    {
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                         final Uri imageUrl = taskSnapshot.getDownloadUrl();
                         userDB.child("username").setValue(username);
@@ -164,18 +167,29 @@ public class ProfileActivity extends Activity
                         appProgress.dismiss();
                     }
                 });
-            }
-            else
-            {
+            } else {
                 Toast.makeText(ProfileActivity.this, "Please select the profile pic", Toast.LENGTH_LONG).show();
             }
-        }
-        else
-        {
+        } else {
             Toast.makeText(ProfileActivity.this, "Please enter username, college, and major", Toast.LENGTH_LONG).show();
         }
     }
 
+    private void deleteAccount()
+    {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful())
+                        {
+                            Intent whereToGo = new Intent(ProfileActivity.this, LoginActivity.class);
+                            ProfileActivity.this.finish();
+                            startActivity(whereToGo);
+                        }
+                    }
+                });
+    }
     private void selectPic()
     {
         final CharSequence[] items = {"Take Photo", "Choose from Device", "Cancel"};
@@ -209,6 +223,7 @@ public class ProfileActivity extends Activity
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
+
     private void galleryIntent()
     {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -226,9 +241,7 @@ public class ProfileActivity extends Activity
         }
         else if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK)
         {
-            Uri imageUri = data.getData();
-            CropImage.activity(imageUri).start(ProfileActivity.this);
-
+            CropImage.activity(data.getData()).start(ProfileActivity.this);
         }
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
         {
@@ -237,13 +250,14 @@ public class ProfileActivity extends Activity
             {
                 imageHoldUri = result.getUri();
                 userPic.setImageURI(imageHoldUri);
-
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE)
+            }
+            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE)
             {
                 Exception error = result.getError();
             }
         }
     }
+
 
     @Override
     public void onBackPressed(){

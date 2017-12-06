@@ -2,6 +2,7 @@ package com.stjohns.stormchat.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import com.stjohns.stormchat.R;
 
 public class ForeignProfileActivity extends AppCompatActivity {
 
