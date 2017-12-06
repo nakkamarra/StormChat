@@ -1,10 +1,5 @@
 package com.stjohns.stormchat.Objects.User;
 
-import android.net.Uri;
-
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-
 /**
  * Created by nick on 11/6/17.
  */
@@ -29,6 +24,10 @@ public class User {
         this.UUID = UUID;
         this.college = college;
         this.major = major;
+
+    }
+
+    public User() {
 
     }
 
