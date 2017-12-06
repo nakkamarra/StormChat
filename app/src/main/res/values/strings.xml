@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">StormChat</string>
     <string name="user_name_default">Default User</string>
+    <string name="foreign_user_name">Default Foreign User</string>
     <string name="email_default">Email Address</string>
     <string name="college">College</string>
     <string name="major">Major</string>
