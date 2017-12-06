@@ -23,7 +23,8 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".Activities.SearchActivity" />
         <activity android:name=".Activities.ChatActivity" />
-        <activity android:name=".Activities.CreateChatActivity"></activity>
+        <activity android:name=".Activities.CreateChatActivity" />
+        <activity android:name=".Activities.ForeignProfileActivity"></activity>
     </application>
 
 </manifest>

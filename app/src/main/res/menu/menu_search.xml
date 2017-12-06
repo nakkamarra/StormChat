@@ -7,7 +7,7 @@
         android:icon="@drawable/search"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always"
+        android:iconTint="@color/white">
 
-
-        ></item>
+    </item>
 </menu>

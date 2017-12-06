@@ -42,7 +42,7 @@ public class ProfileActivity extends Activity
     Uri imageHoldUri = null;
 
     FirebaseDatabase database=FirebaseDatabase.getInstance();
-    DatabaseReference userDB= database.getReference("https://stormchatsju/").child("Users");
+    DatabaseReference userDB = database.getReference("https://stormchatsju/").child("Users");
     ProgressDialog appProgress;
 
     @Override
@@ -54,14 +54,14 @@ public class ProfileActivity extends Activity
     public void onStart()
     {
         super.onStart();
-        userNameEditText =findViewById(R.id.userProfileName); // findViewById(int) retrieves the widgets in that UI that you need to interact with programmatically.
-        userStatusEditText =findViewById(R.id.userProfileStatus);
-        userCollegeEditText =findViewById(R.id.college_field);
-        userMajorEditText =findViewById(R.id.major_field);
-        userChangeImage=findViewById(R.id.userChangeImage);
+        userNameEditText = findViewById(R.id.userProfileName); // findViewById(int) retrieves the widgets in that UI that you need to interact with programmatically.
+        userStatusEditText = findViewById(R.id.userProfileStatus);
+        userCollegeEditText = findViewById(R.id.college_field);
+        userMajorEditText = findViewById(R.id.major_field);
+        userChangeImage = findViewById(R.id.userChangeImage);
         userPic = findViewById(R.id.userProfileImageView);
         saveProfilePage = findViewById(R.id.saveProfile);
-        backButton=findViewById(R.id.goBack);
+        backButton = findViewById(R.id.goBack);
         authUser = FirebaseAuth.getInstance();
 
         userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(authUser.getCurrentUser().getUid());

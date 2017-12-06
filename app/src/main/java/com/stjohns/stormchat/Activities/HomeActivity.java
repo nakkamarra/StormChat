@@ -27,7 +27,7 @@ public class HomeActivity extends AppCompatActivity {
     private ActionBarDrawerToggle showMenu;
     private NavigationView homeNavView;
     FirebaseDatabase database=FirebaseDatabase.getInstance();
-    DatabaseReference userDB=database.getReference("https://stormchatsju/").child("Users");
+    DatabaseReference userDB = database.getReference("https://stormchatsju/").child("Users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +56,11 @@ public class HomeActivity extends AppCompatActivity {
                     case "Profile":
                         whereToGo = new Intent(HomeActivity.this, ProfileActivity.class);
                         break;
-//                    case "Search":
-//                        whereToGo = new Intent(HomeActivity.this, SearchActivity.class);
-//                        break;
+                    case "Search":
+                        whereToGo = new Intent(HomeActivity.this, SearchActivity.class);
+                        break;
                     case "Maurice's Button":
                         whereToGo = new Intent(HomeActivity.this, ChatActivity.class);
-                        break;
-                    case "Settings":
                         break;
                     case "Log Out":
                         userAuthenticator.signOut();

@@ -20,15 +20,14 @@ public class SearchActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_activity);
-        SearchView sv = (SearchView)findViewById(R.id.search_activity_search_bar);
-        ListView lv = (ListView)findViewById(R.id.result_list);
+        SearchView sv = findViewById(R.id.search_activity_search_bar);
+        ListView lv = findViewById(R.id.result_list);
         ArrayList<String> arraySearchResults = new ArrayList<>();
         adapter = new ArrayAdapter<>(
                 SearchActivity.this,
                 android.R.layout.simple_list_item_1,
                 arraySearchResults);
         lv.setAdapter(adapter);
-
     }
 
     @Override

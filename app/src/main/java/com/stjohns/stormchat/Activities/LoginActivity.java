@@ -80,6 +80,7 @@ public class LoginActivity extends Activity
                                             "N/A",
                                             "N/A");
                                     createUserInDatabase(dummyUser, currentUser);
+                                    Toast.makeText(LoginActivity.this, R.string.create_account_success, Toast.LENGTH_LONG).show();
                                     ///////////////////////////////////////////////////////////////////////
                                 } else {
                                     Toast.makeText(LoginActivity.this, R.string.create_account_failed, Toast.LENGTH_LONG).show();
@@ -191,14 +192,12 @@ public class LoginActivity extends Activity
     }
 
     public void createUserInDatabase(User u, FirebaseUser currentFBUser){
-        FirebaseDatabase database=FirebaseDatabase.getInstance();
-        DatabaseReference userDB = database.getReference("https://stormchatsju/").child("Users");
-        userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(currentFBUser.getUid());
-        userDB.child("email").setValue(u.getEmail());
-        userDB.child("username").setValue(u.getName());
-        userDB.child("status").setValue(u.getBio());
-        userDB.child("college").setValue(u.getMajor());
-        userDB.child("major").setValue(u.getMajor());
-        userDB.child("imageurl").setValue(u.getImagePath());
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("Users").child(currentFBUser.getUid());
+        database.child("email").setValue(u.getEmail());
+        database.child("username").setValue(u.getName());
+        database.child("status").setValue(u.getBio());
+        database.child("college").setValue(u.getMajor());
+        database.child("major").setValue(u.getMajor());
+        database.child("imageurl").setValue(u.getImagePath());
     }
 }
