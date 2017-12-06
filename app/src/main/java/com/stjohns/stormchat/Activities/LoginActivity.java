@@ -79,6 +79,7 @@ public class LoginActivity extends Activity
                                             currentUser.getUid(),
                                             "N/A",
                                             "N/A");
+                                    Toast.makeText(LoginActivity.this, R.string.create_account_success, Toast.LENGTH_LONG).show();
                                     createUserInDatabase(dummyUser, currentUser);
                                     Toast.makeText(LoginActivity.this, R.string.create_account_success, Toast.LENGTH_LONG).show();
                                     ///////////////////////////////////////////////////////////////////////
