@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -16,12 +15,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,8 +34,8 @@ import com.stjohns.stormchat.R;
 
 public class ProfileActivity extends Activity
 {
-    private static final int REQUEST_CAMERA = 3;
-    private static final int SELECT_FILE = 2;
+    private static final int REQUEST_CAMERA = 2;
+    private static final int SELECT_FILE = 1;
     EditText userNameEditText, userStatusEditText, userCollegeEditText, userMajorEditText;
     ImageView userPic;
     ImageButton userChangeImage, saveProfilePage;
@@ -220,9 +216,12 @@ public class ProfileActivity extends Activity
     private void cameraIntent()
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                Uri.withAppendedPath(imageHoldUri, ""));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_CAMERA);
+        }
     }
-
 
     private void galleryIntent()
     {
@@ -235,11 +234,7 @@ public class ProfileActivity extends Activity
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SELECT_FILE && resultCode == RESULT_OK)
-        {
-            CropImage.activity(data.getData()).start(ProfileActivity.this);
-        }
-        else if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK)
+        if ((requestCode == SELECT_FILE || requestCode==REQUEST_CAMERA) && resultCode == RESULT_OK)
         {
             CropImage.activity(data.getData()).start(ProfileActivity.this);
         }
