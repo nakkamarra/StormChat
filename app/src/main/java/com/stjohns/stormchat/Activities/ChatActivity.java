@@ -1,6 +1,7 @@
 package com.stjohns.stormchat.Activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.stjohns.stormchat.Objects.Chat.Chat;
 import com.stjohns.stormchat.Objects.User.User;
 import com.stjohns.stormchat.R;
 
@@ -99,6 +101,14 @@ public class ChatActivity extends Activity
     public void onStart()
     {
         super.onStart();
-        Log.e("User", users);
+        Log.e("User", users[0].toString());
+    }
+
+
+    @Override
+    public void onBackPressed(){
+        Intent whereToGo = new Intent(ChatActivity.this, HomeActivity.class);
+        ChatActivity.this.finish();
+        startActivity(whereToGo);
     }
 }

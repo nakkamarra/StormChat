@@ -86,7 +86,7 @@ public class ProfileActivity extends Activity
                 userMajorEditText.setText(displayMajor);
                 String displayCollege=dataSnapshot.child("college").getValue().toString();
                 userCollegeEditText.setText(displayCollege);
-                String displayPic=dataSnapshot.child("imageurl").getValue().toString();
+                String displayPic = dataSnapshot.child("imageurl").getValue().toString();
                 Picasso.with(ProfileActivity.this).load(displayPic).placeholder(R.drawable.user).into(userPic);
             }
             public void onCancelled(DatabaseError result)

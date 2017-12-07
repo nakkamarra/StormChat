@@ -1,6 +1,7 @@
 package com.stjohns.stormchat.Activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,5 +51,12 @@ public class SearchActivity extends Activity {
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent whereToGo = new Intent(SearchActivity.this, HomeActivity.class);
+        SearchActivity.this.finish();
+        startActivity(whereToGo);
     }
 }
