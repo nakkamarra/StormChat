@@ -223,11 +223,7 @@ public class ProfileActivity extends Activity
     private void cameraIntent()
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                Uri.withAppendedPath(imageHoldUri, ""));
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_CAMERA);
-        }
+        startActivityForResult(intent, REQUEST_CAMERA);
     }
 
     private void galleryIntent()
