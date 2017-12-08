@@ -2,6 +2,7 @@ package com.stjohns.stormchat.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
@@ -10,6 +11,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.stjohns.stormchat.R;
 import com.squareup.picasso.Picasso;
 
+=======
+import com.stjohns.stormchat.R;
+>>>>>>> 5a7f527a10348a22f29876452c302c465ba405ae
 
 public class ForeignProfileActivity extends AppCompatActivity {
 

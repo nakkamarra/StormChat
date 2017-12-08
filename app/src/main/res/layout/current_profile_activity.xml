@@ -64,6 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
                 android:text="Status: "
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -81,7 +82,7 @@
                 android:maxLines="1"
                 android:textSize="18sp"
                 android:textColor="@color/white"
-                android:textColorHint="@color/white"
+                android:textColorHint="#ccc"
                 android:backgroundTint="@color/white"/>
             
         </LinearLayout>
@@ -96,6 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
                 android:text="Name: "
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -113,7 +115,7 @@
                 android:maxLines="1"
                 android:textSize="18sp"
                 android:textColor="@color/white"
-                android:textColorHint="@color/white"
+                android:textColorHint="#ccc"
                 android:backgroundTint="@color/white"/>
         </LinearLayout>
         <LinearLayout
@@ -126,6 +128,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
                 android:text="College:"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -143,7 +146,7 @@
                 android:maxLines="1"
                 android:textSize="18sp"
                 android:textColor="@color/white"
-                android:textColorHint="@color/white"
+                android:textColorHint="#ccc"
                 android:backgroundTint="@color/white"/>
         </LinearLayout>
 
@@ -158,6 +161,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
                 android:text="Major: "
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -175,37 +179,36 @@
                 android:maxLines="1"
                 android:textSize="18sp"
                 android:textColor="@color/white"
-                android:textColorHint="@color/white"
+                android:textColorHint="#ccc"
                 android:backgroundTint="@color/white"/>
+
         </LinearLayout>
-
-
-
 
     </LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="horizontal">
+        <Button
+            android:id="@+id/delete_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_image_transparent"
+            android:text="Delete Account"
+            android:scaleType="fitCenter"/>
         <ImageButton
             android:id="@+id/saveProfile"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_margin="8dp"
-            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_margin="20dp"
             android:background="@drawable/rounded_image_transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/check"/>
-
-        <ImageButton
-            android:id="@+id/goBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="8dp"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_image_transparent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/back"/>
 
     </LinearLayout>
 

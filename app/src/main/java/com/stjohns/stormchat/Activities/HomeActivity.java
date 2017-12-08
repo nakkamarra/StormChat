@@ -5,6 +5,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,19 +15,22 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.stjohns.stormchat.Objects.User.User;
 import com.stjohns.stormchat.R;
 
+import java.util.HashMap;
+
 public class HomeActivity extends AppCompatActivity {
 
-    private User operatingUser;
+    private User operatingUser =  new User();
     private FirebaseAuth userAuthenticator;
     private DrawerLayout homeDrawer;
     private ActionBarDrawerToggle showMenu;
     private NavigationView homeNavView;
-    FirebaseDatabase database=FirebaseDatabase.getInstance();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference userDB = database.getReference("https://stormchatsju/").child("Users");
 
     @Override
@@ -45,7 +49,6 @@ public class HomeActivity extends AppCompatActivity {
         homeDrawer.addDrawerListener(showMenu);
         showMenu.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         homeNavView = findViewById(R.id.home_nav_view);
         homeNavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -81,15 +84,17 @@ public class HomeActivity extends AppCompatActivity {
             navDrawProfileEmail.setText(R.string.email_default);
         else
             navDrawProfileEmail.setText(currentUser.getEmail());
-        userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(userAuthenticator.getCurrentUser().getUid());
-        userDB.addValueEventListener(new ValueEventListener() {
+            userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid());
+            userDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                String displayName=dataSnapshot.child("username").getValue().toString();
+                String displayName = dataSnapshot.child("username").getValue().toString();
                 navDrawProfileName.setText(displayName);
-                String displayPic=dataSnapshot.child("imageurl").getValue().toString();
-                Picasso.with(HomeActivity.this).load(displayPic).placeholder(R.drawable.user).into(navDrawProfileImage);
+                String displayName=dataSnapshot.child("username").getValue(String.class);
+                navDrawProfileName.setText(displayName);
+                String displayPic=dataSnapshot.child("imageurl").getValue(String.class);
+            Picasso.with(HomeActivity.this).load(displayPic).placeholder(R.drawable.user).into(navDrawProfileImage);
             }
             @Override
             public void onCancelled(DatabaseError errorResult) {
@@ -107,4 +112,34 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+//    public static User getUserInDatabase(FirebaseUser currentUser) {
+//        final User[] aUser = {new User()};
+//
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference userDB = database.getReference("https://stormchatsju/").child("Users");
+//        userDB = FirebaseDatabase.
+//                getInstance().
+//                getReference("https://stormchatsju/").
+//                child("Users").child(currentUser.getUid());
+//        final Query query = userDB.orderByChild("ZTtTSLth6kSBLA").equalTo("ZTtTSLth6kSBLAatplWk2cCx5IN2");
+//        query.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()) {
+//                    Log.e("Snapshot not working", "Assignment might not be correct");
+//                } else {
+//                    Log.e("Snapshot doesnt exists", "Most likely error with DB connection");
+//                }
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError result) {
+//                String error = result.getMessage();
+//            }
+//        });
+//        {
+//
+//
+//        }
+//        return aUser[0];
+//    }
 }

@@ -79,6 +79,7 @@ public class LoginActivity extends Activity
                                             currentUser.getUid(),
                                             "N/A",
                                             "N/A");
+                                    Toast.makeText(LoginActivity.this, R.string.create_account_success, Toast.LENGTH_LONG).show();
                                     createUserInDatabase(dummyUser, currentUser);
                                     Toast.makeText(LoginActivity.this, R.string.create_account_success, Toast.LENGTH_LONG).show();
                                     ///////////////////////////////////////////////////////////////////////
@@ -89,10 +90,10 @@ public class LoginActivity extends Activity
                         });
             }
             else
-                Toast.makeText(LoginActivity.this, R.string.invalid_email_domain, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.invalid_email_domain, Toast.LENGTH_LONG).show();
         }
         else
-            Toast.makeText(LoginActivity.this, R.string.weak_password, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.weak_password, Toast.LENGTH_LONG).show();
     }
 
     public void logIn(String email, String password){

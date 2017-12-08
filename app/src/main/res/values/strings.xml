@@ -19,9 +19,8 @@
     <string name="invalid_email_domain">You must use a St. John\'s University email.</string>
     <string name="weak_password">Password is not strong enough:
         Must contain a minimum of 6 characters and at least one instance of a digit.</string>
-    <string name="create_account_failed">Failed to create account. Are you connected to the internet?
-        Account may already exist.</string>
-    <string name="create_account_success">Account created! Check your email to verify.</string>
+    <string name="create_account_success">Account created. Check email for verification link.</string>
+    <string name="create_account_failed">Failed to create account. Are you connected to the internet?</string>
     <string name="log_in_failed">Failed to log in. Are you connected to the internet?
         Credentials may not have been correct.</string>
     <string name="email_not_verified">Email address not verified.
