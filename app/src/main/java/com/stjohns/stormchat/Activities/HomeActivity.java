@@ -91,10 +91,10 @@ public class HomeActivity extends AppCompatActivity {
             {
                 String displayName = dataSnapshot.child("username").getValue().toString();
                 navDrawProfileName.setText(displayName);
-                operatingUser.setName(displayName);
-                Log.e("name", operatingUser.getName());
-                String displayPic = dataSnapshot.child("imageurl").getValue().toString();
-                Picasso.with(HomeActivity.this).load(displayPic).placeholder(R.drawable.user).into(navDrawProfileImage);
+                String displayName=dataSnapshot.child("username").getValue(String.class);
+                navDrawProfileName.setText(displayName);
+                String displayPic=dataSnapshot.child("imageurl").getValue(String.class);
+            Picasso.with(HomeActivity.this).load(displayPic).placeholder(R.drawable.user).into(navDrawProfileImage);
             }
             @Override
             public void onCancelled(DatabaseError errorResult) {
