@@ -89,8 +89,6 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                String displayName = dataSnapshot.child("username").getValue().toString();
-                navDrawProfileName.setText(displayName);
                 String displayName=dataSnapshot.child("username").getValue(String.class);
                 navDrawProfileName.setText(displayName);
                 String displayPic=dataSnapshot.child("imageurl").getValue(String.class);
