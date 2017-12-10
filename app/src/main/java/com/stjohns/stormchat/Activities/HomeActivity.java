@@ -10,6 +10,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -49,6 +51,12 @@ public class HomeActivity extends AppCompatActivity  {
         ListView lv = findViewById(R.id.chat_list);
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(HomeActivity.this, android.R.layout.simple_dropdown_item_1line, chatList );
         lv.setAdapter(arrayAdapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // To do : on click of item get ID from String, switch to chat activity, bundle ID as String with Intent.
+            }
+        });
         userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid()).child("chats");
         userDB.addValueEventListener(new ValueEventListener() {
             @Override
