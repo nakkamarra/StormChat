@@ -46,7 +46,6 @@ public class HomeActivity extends AppCompatActivity  {
         setContentView(R.layout.home_activity);
         final FirebaseAuth userAuthenticator= FirebaseAuth.getInstance();
         final FirebaseUser currentUser = userAuthenticator.getCurrentUser();
-
         ListView lv = findViewById(R.id.chat_list);
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(HomeActivity.this, android.R.layout.simple_dropdown_item_1line, chatList );
         lv.setAdapter(arrayAdapter);
@@ -54,17 +53,16 @@ public class HomeActivity extends AppCompatActivity  {
         userDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     chatList.add(d.getKey() + " :" + d.getValue());
                     arrayAdapter.notifyDataSetChanged();
 
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError errorResult){
                 String error = errorResult.getMessage();
+                Log.e("Database Error", error);
             }
 
         });
@@ -115,11 +113,8 @@ public class HomeActivity extends AppCompatActivity  {
         final ImageView navDrawProfileImage = homeNavView.getHeaderView(0).findViewById(R.id.menu_profile_image);
         final TextView navDrawProfileName = homeNavView.getHeaderView(0).findViewById(R.id.menu_profile_name);
         final TextView navDrawProfileEmail = homeNavView.getHeaderView(0).findViewById(R.id.menu_profile_email);
+        navDrawProfileEmail.setText(currentUser.getEmail());
 
-
-
-
-            navDrawProfileEmail.setText(currentUser.getEmail());
         userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid());
         userDB.addValueEventListener(new ValueEventListener() {
             @Override
@@ -147,27 +142,5 @@ public class HomeActivity extends AppCompatActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getUserInDatabase(FirebaseUser currentUser) {
-
-            userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid()).child("chats");
-            userDB.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    for(DataSnapshot d : dataSnapshot.getChildren()){
-                        chatList.add(d.getKey()+ " :" + d.getValue());
-
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError errorResult) {
-                    String error = errorResult.getMessage();
-                }
-            });
-
-
-        }
-    }
+}
 
