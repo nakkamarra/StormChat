@@ -65,6 +65,11 @@ public class HomeActivity extends AppCompatActivity {
                     case "Maurice's Button":
                         whereToGo = new Intent(HomeActivity.this, ChatActivity.class);
                         break;
+                    case "Sharon Button":
+                        whereToGo = new Intent(HomeActivity.this, ForeignProfileActivity.class);
+                        //testing foreign user by going to nicks profile
+                        whereToGo.putExtra("userID", "jY0kdPHXSKMysCvQZ6OgyRzNiE23");
+                        break;
                     case "Log Out":
                         userAuthenticator.signOut();
                         whereToGo = new Intent(HomeActivity.this, LoginActivity.class);
