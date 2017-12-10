@@ -15,32 +15,27 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.stjohns.stormchat.Objects.User.User;
 import com.stjohns.stormchat.R;
 
-public class LoginActivity extends Activity
-{
+public class LoginActivity extends Activity {
 
-    private FirebaseAuth loginAuthenticator;
+    private FirebaseAuth loginAuthenticator = FirebaseAuth.getInstance();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
-        loginAuthenticator = FirebaseAuth.getInstance();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
         FirebaseUser currentUser = loginAuthenticator.getCurrentUser();
+
         if (currentUser != null){
             startActivity(new Intent(getApplicationContext(), HomeActivity.class));
             LoginActivity.this.finish();
         }
 
         Button loginButton = findViewById(R.id.login_button);
-        Button createAccountButton = findViewById(R.id.create_account_button);
-
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,6 +45,7 @@ public class LoginActivity extends Activity
             }
         });
 
+        Button createAccountButton = findViewById(R.id.create_account_button);
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +56,7 @@ public class LoginActivity extends Activity
         });
     }
 
+    //CREATE ACCOUNT USING FIREBASE
     public void createAccount(String email, String password){
         if (passwordIsStrong(password)){
             if (emailIsSjuDomain(email)){
@@ -70,7 +67,6 @@ public class LoginActivity extends Activity
                                 if (task.isSuccessful()) {
                                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                                     currentUser.sendEmailVerification();
-                                    /////////// INSTANTIATE A USER OBJECT AND SEND TO DATABASE /////////////
                                     User dummyUser = new User(
                                             "N/A",
                                             currentUser.getEmail(),
@@ -79,10 +75,8 @@ public class LoginActivity extends Activity
 
                                             "N/A",
                                             "N/A");
-                                    Toast.makeText(LoginActivity.this, R.string.create_account_success, Toast.LENGTH_LONG).show();
                                     createUserInDatabase(dummyUser, currentUser);
                                     Toast.makeText(LoginActivity.this, R.string.create_account_success, Toast.LENGTH_LONG).show();
-                                    ///////////////////////////////////////////////////////////////////////
                                 } else {
                                     Toast.makeText(LoginActivity.this, R.string.create_account_failed, Toast.LENGTH_LONG).show();
                                 }
@@ -96,6 +90,7 @@ public class LoginActivity extends Activity
             Toast.makeText(this, R.string.weak_password, Toast.LENGTH_LONG).show();
     }
 
+    //LOG IN USING FIREBASE
     public void logIn(String email, String password){
         loginAuthenticator.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -116,6 +111,7 @@ public class LoginActivity extends Activity
                 });
     }
 
+    //DISPLAY DIALOG WITH FORM FIELDS
     public Dialog createDialog(int id){
         final Dialog loginDialog = new Dialog(LoginActivity.this);
         loginDialog.setContentView(R.layout.login_dialog);
@@ -168,6 +164,7 @@ public class LoginActivity extends Activity
         return loginDialog;
     }
 
+    //CHECK PASSWORD IS GOOD ENOUGH
     public boolean passwordIsStrong(String password){
        boolean valid = false;
            int digitCount = 0;
@@ -182,6 +179,7 @@ public class LoginActivity extends Activity
        return valid;
     }
 
+    //CHECK EMAIL IS FROM SJU
     public boolean emailIsSjuDomain(String email){
         boolean valid = false;
             if (email.indexOf('@') != -1){
@@ -192,6 +190,7 @@ public class LoginActivity extends Activity
         return valid;
     }
 
+    //CREATE DATABASE CHILD, POPULATED WITH THIS USERS INFO
     public void createUserInDatabase(User u, FirebaseUser currentFBUser){
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("Users").child(currentFBUser.getUid());
         database.child("email").setValue(u.getEmail());
