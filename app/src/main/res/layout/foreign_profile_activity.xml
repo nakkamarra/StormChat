@@ -61,6 +61,19 @@
             android:backgroundTint="@color/white"/>
 
         <TextView
+            android:id="@+id/userEmail"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:hint="Email"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:backgroundTint="@color/white"/>
+
+        <TextView
             android:id="@+id/userProfileName"
             android:layout_width="match_parent"
             android:layout_height="0dp"
