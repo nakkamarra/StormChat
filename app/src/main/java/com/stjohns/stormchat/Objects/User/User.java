@@ -10,18 +10,18 @@ public class User {
     private String email;
     private String imagePath;
     private String bio;
-    private String UUID;
+
     private String college;
     private String major;
 
 
-    public User(String name, String email, String imagePath, String bio, String UUID, String college, String major)
+    public User(String name, String email, String imagePath, String bio, String college, String major)
     {
         this.name = name;
         this.email = email;
         this.imagePath = imagePath;
         this.bio = bio;
-        this.UUID = UUID;
+
         this.college = college;
         this.major = major;
 
@@ -63,15 +63,6 @@ public class User {
 
     public void setBio(String bio) {
         this.bio = bio;
-    }
-
-    public String getUUID() {
-
-        return UUID;
-    }
-
-    public void setUUID(String UUID) {
-        this.UUID = UUID;
     }
 
     public String getCollege() {

@@ -16,4 +16,16 @@
         app:menu="@menu/home_nav_menu"
         app:headerLayout="@layout/navigation_header"/>
 
+
+
+
+    <ListView
+        android:id="@+id/chat_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </ListView>
+
+
 </android.support.v4.widget.DrawerLayout>

@@ -76,7 +76,7 @@ public class LoginActivity extends Activity
                                             currentUser.getEmail(),
                                             "https://firebasestorage.googleapis.com/v0/b/stormchatsju.appspot.com/o/User_Profile%2Fuser.png?alt=media&token=07de37e6-6672-4f6a-9677-82a877c29ec3",
                                             "I'm using StormChat! Send me a Message!",
-                                            currentUser.getUid(),
+
                                             "N/A",
                                             "N/A");
                                     Toast.makeText(LoginActivity.this, R.string.create_account_success, Toast.LENGTH_LONG).show();

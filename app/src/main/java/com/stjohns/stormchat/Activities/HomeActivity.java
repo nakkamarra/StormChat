@@ -1,13 +1,19 @@
 package com.stjohns.stormchat.Activities;
+import android.app.LoaderManager;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -17,33 +23,58 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.stjohns.stormchat.Objects.Chat.Chat;
 import com.stjohns.stormchat.Objects.User.User;
 import com.stjohns.stormchat.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
-public class HomeActivity extends AppCompatActivity {
-
-    private User operatingUser =  new User();
-    private FirebaseAuth userAuthenticator;
+public class HomeActivity extends AppCompatActivity  {
+    private ArrayList<String> chatList = new ArrayList<>();
     private DrawerLayout homeDrawer;
     private ActionBarDrawerToggle showMenu;
     private NavigationView homeNavView;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference userDB = database.getReference("https://stormchatsju/").child("Users");
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference userDB = database.getReference("https://stormchatsju/").child("Users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
-        userAuthenticator = FirebaseAuth.getInstance();
+        final FirebaseAuth userAuthenticator= FirebaseAuth.getInstance();
+        final FirebaseUser currentUser = userAuthenticator.getCurrentUser();
+
+        ListView lv = findViewById(R.id.chat_list);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(HomeActivity.this, android.R.layout.simple_dropdown_item_1line, chatList );
+        lv.setAdapter(arrayAdapter);
+        userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid()).child("chats");
+        userDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    chatList.add(d.getKey() + " :" + d.getValue());
+                    arrayAdapter.notifyDataSetChanged();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError errorResult){
+                String error = errorResult.getMessage();
+            }
+
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser currentUser = userAuthenticator.getCurrentUser();
+        final FirebaseAuth userAuthenticator= FirebaseAuth.getInstance();
+        final FirebaseUser currentUser = userAuthenticator.getCurrentUser();
         homeDrawer = findViewById(R.id.home_drawer);
         showMenu = new ActionBarDrawerToggle(this, homeDrawer, R.string.open, R.string.close);
         homeDrawer.addDrawerListener(showMenu);
@@ -54,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 String title = menuItem.getTitle().toString();
-                Intent whereToGo =  new Intent();
+                Intent whereToGo = new Intent();
                 switch (title) {
                     case "Profile":
                         whereToGo = new Intent(HomeActivity.this, ProfileActivity.class);
@@ -78,68 +109,61 @@ public class HomeActivity extends AppCompatActivity {
 
         final ImageView navDrawProfileImage = homeNavView.getHeaderView(0).findViewById(R.id.menu_profile_image);
         final TextView navDrawProfileName = homeNavView.getHeaderView(0).findViewById(R.id.menu_profile_name);
-        final TextView navDrawProfileEmail =  homeNavView.getHeaderView(0).findViewById(R.id.menu_profile_email);
+        final TextView navDrawProfileEmail = homeNavView.getHeaderView(0).findViewById(R.id.menu_profile_email);
 
-        if (currentUser.getEmail() == null)
-            navDrawProfileEmail.setText(R.string.email_default);
-        else
+
+
+
             navDrawProfileEmail.setText(currentUser.getEmail());
-            userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid());
-            userDB.addValueEventListener(new ValueEventListener() {
+        userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid());
+        userDB.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                String displayName = dataSnapshot.child("username").getValue().toString();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String displayName = dataSnapshot.child("username").getValue(String.class);
                 navDrawProfileName.setText(displayName);
-                String displayName=dataSnapshot.child("username").getValue(String.class);
-                navDrawProfileName.setText(displayName);
-                String displayPic=dataSnapshot.child("imageurl").getValue(String.class);
-            Picasso.with(HomeActivity.this).load(displayPic).placeholder(R.drawable.user).into(navDrawProfileImage);
+                String displayPic = dataSnapshot.child("imageurl").getValue(String.class);
+                Picasso.with(HomeActivity.this).load(displayPic).placeholder(R.drawable.user).into(navDrawProfileImage);
+
             }
+
             @Override
             public void onCancelled(DatabaseError errorResult) {
                 String error = errorResult.getMessage();
             }
         });
 
-    }
+        }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (showMenu.onOptionsItemSelected(item)){
+        if (showMenu.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-//    public static User getUserInDatabase(FirebaseUser currentUser) {
-//        final User[] aUser = {new User()};
-//
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference userDB = database.getReference("https://stormchatsju/").child("Users");
-//        userDB = FirebaseDatabase.
-//                getInstance().
-//                getReference("https://stormchatsju/").
-//                child("Users").child(currentUser.getUid());
-//        final Query query = userDB.orderByChild("ZTtTSLth6kSBLA").equalTo("ZTtTSLth6kSBLAatplWk2cCx5IN2");
-//        query.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists()) {
-//                    Log.e("Snapshot not working", "Assignment might not be correct");
-//                } else {
-//                    Log.e("Snapshot doesnt exists", "Most likely error with DB connection");
-//                }
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError result) {
-//                String error = result.getMessage();
-//            }
-//        });
-//        {
-//
-//
-//        }
-//        return aUser[0];
-//    }
-}
+    public void getUserInDatabase(FirebaseUser currentUser) {
+
+            userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid()).child("chats");
+            userDB.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    for(DataSnapshot d : dataSnapshot.getChildren()){
+                        chatList.add(d.getKey()+ " :" + d.getValue());
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError errorResult) {
+                    String error = errorResult.getMessage();
+                }
+            });
+
+
+        }
+    }
+
