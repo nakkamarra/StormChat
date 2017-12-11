@@ -1,4 +1,5 @@
 package com.stjohns.stormchat.Activities;
+import android.content.Intent;
 import android.os.Bundle;
 import com.google.firebase.database.ChildEventListener;
 import com.stjohns.stormchat.Objects.User.User;
@@ -8,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -109,6 +111,21 @@ public class CreateChatActivity extends AppCompatActivity {
             }
     });
     }
+
+//    ImageButton returnButton = findViewById(R.id.goBack);
+//        returnButton.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            onBackPressed();
+//        }
+//    });
+//@Override
+//public void onBackPressed(){
+//
+//    startActivity(new Intent(ForeignProfileActivity.this, HomeActivity.class));
+//    ForeignProfileActivity.this.finish();
+//}
+//}
 
     public void addMessageBox(String message, int type){
         TextView textView = new TextView(CreateChatActivity.this);

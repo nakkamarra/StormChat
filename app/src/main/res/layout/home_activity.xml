@@ -16,6 +16,12 @@
         app:menu="@menu/home_nav_menu"
         app:headerLayout="@layout/navigation_header"/>
 
+    <ImageButton
+        android:id="@+id/messageWhite"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="right"
+        android:layout_margin="8dp"></ImageButton>
 
 
 

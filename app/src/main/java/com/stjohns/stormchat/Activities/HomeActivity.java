@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -79,7 +80,7 @@ public class HomeActivity extends AppCompatActivity  {
     @Override
     protected void onStart() {
         super.onStart();
-        final FirebaseAuth userAuthenticator= FirebaseAuth.getInstance();
+        final FirebaseAuth userAuthenticator = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = userAuthenticator.getCurrentUser();
         homeDrawer = findViewById(R.id.home_drawer);
         showMenu = new ActionBarDrawerToggle(this, homeDrawer, R.string.open, R.string.close);
@@ -139,7 +140,18 @@ public class HomeActivity extends AppCompatActivity  {
             }
         });
 
-        }
+        ImageButton createChatButton = findViewById(R.id.messageWhite);
+
+        createChatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, CreateChatActivity.class));
+                HomeActivity.this.finish();
+            }
+        });
+
+    }
+
 
 
     @Override
