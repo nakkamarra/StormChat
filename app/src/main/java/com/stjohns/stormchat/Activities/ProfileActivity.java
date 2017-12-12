@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,15 +35,15 @@ import com.stjohns.stormchat.R;
 
 public class ProfileActivity extends Activity
 {
-    private static final int REQUEST_CAMERA = 2;
-    private static final int SELECT_FILE = 1;
+    private static final int REQUEST_CAMERA = 1;
+    private static final int SELECT_FILE = 2;
     EditText userNameEditText, userStatusEditText, userCollegeEditText, userMajorEditText;
     ImageView userPic;
     ImageButton userChangeImage, saveProfilePage;
     Button deleteAccount;
     FirebaseAuth authUser;
     FirebaseAuth.AuthStateListener authUserListener;
-    StorageReference storageRef;
+    StorageReference storageRef=FirebaseStorage.getInstance().getReference();
     Uri imageHoldUri = null;
 
     FirebaseDatabase database=FirebaseDatabase.getInstance();
@@ -58,7 +59,8 @@ public class ProfileActivity extends Activity
     public void onStart()
     {
         super.onStart();
-        userNameEditText = findViewById(R.id.userProfileName); // findViewById(int) retrieves the widgets in that UI that you need to interact with programmatically.
+
+        userNameEditText = findViewById(R.id.userProfileName);
         userStatusEditText = findViewById(R.id.userProfileStatus);
         userCollegeEditText = findViewById(R.id.college_field);
         userMajorEditText = findViewById(R.id.major_field);
@@ -66,30 +68,34 @@ public class ProfileActivity extends Activity
         userPic = findViewById(R.id.userProfileImageView);
         saveProfilePage = findViewById(R.id.saveProfile);
         deleteAccount = findViewById(R.id.delete_account);
-        authUser = FirebaseAuth.getInstance();
 
+        authUser = FirebaseAuth.getInstance();
         userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(authUser.getCurrentUser().getUid());
-        storageRef = FirebaseStorage.getInstance().getReference();
+
         userDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                    String displayName=dataSnapshot.child("username").getValue(String.class);
-                    userNameEditText.setText(displayName);
-                    String displayStatus=dataSnapshot.child("status").getValue(String.class);
-                    userStatusEditText.setText(displayStatus);
-                    String displayMajor=dataSnapshot.child("major").getValue(String.class);
-                    userMajorEditText.setText(displayMajor);
-                    String displayCollege=dataSnapshot.child("college").getValue(String.class);
-                    userCollegeEditText.setText(displayCollege);
-                    String displayPic = dataSnapshot.child("imageurl").getValue(String.class);
-                    Picasso.with(ProfileActivity.this).load(displayPic).placeholder(R.drawable.user).into(userPic);
+                String displayName=dataSnapshot.child("username").getValue(String.class);
+                userNameEditText.setText(displayName);
+                String displayStatus=dataSnapshot.child("status").getValue(String.class);
+                userStatusEditText.setText(displayStatus);
+                String displayMajor=dataSnapshot.child("major").getValue(String.class);
+                userMajorEditText.setText(displayMajor);
+                String displayCollege=dataSnapshot.child("college").getValue(String.class);
+                userCollegeEditText.setText(displayCollege);
+                String displayPic = dataSnapshot.child("imageurl").getValue(String.class);
+                Picasso.with(ProfileActivity.this).load(displayPic).placeholder(R.drawable.user).into(userPic);
             }
+
             public void onCancelled(DatabaseError result)
             {
+
                 String error = result.getMessage();
+                Log.e("Database Error", error);
             }});
-        authUserListener = new FirebaseAuth.AuthStateListener() //Listener called when there is a change in the authentication state.
+
+        authUserListener = new FirebaseAuth.AuthStateListener()
         {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
@@ -104,7 +110,6 @@ public class ProfileActivity extends Activity
         };
 
         appProgress = new ProgressDialog(this);
-
 
         saveProfilePage.setOnClickListener(new View.OnClickListener()
         {
@@ -139,18 +144,22 @@ public class ProfileActivity extends Activity
         });
     }
 
-    private void saveUserProfile() {
+    private void saveUserProfile()
+    {
         final String username = userNameEditText.getText().toString().trim();
         final String userStatus = userStatusEditText.getText().toString().trim();
         final String college = userCollegeEditText.getText().toString().trim();
         final String major = userMajorEditText.getText().toString().trim();
 
-        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(major) && !TextUtils.isEmpty(college)) {
-            if (imageHoldUri != null) {
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(major) && !TextUtils.isEmpty(college))
+        {
+            if (imageHoldUri != null)
+            {
                 appProgress.setTitle("Saving Profile");
                 appProgress.show();
-                StorageReference mChildStorage = storageRef.child("User_Profile").child(imageHoldUri.getLastPathSegment());
-                mChildStorage.putFile(imageHoldUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                storageRef= storageRef.child("User_Profile").child(imageHoldUri.getLastPathSegment());
+                storageRef.putFile(imageHoldUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
+                {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
@@ -161,13 +170,16 @@ public class ProfileActivity extends Activity
                         userDB.child("major").setValue(major);
                         userDB.child("imageurl").setValue(imageUrl.toString());
                         appProgress.dismiss();
-                    }
-                });
-            } else {
-                Toast.makeText(ProfileActivity.this, "Please select the profile pic", Toast.LENGTH_LONG).show();
+                    }});
             }
-        } else {
-            Toast.makeText(ProfileActivity.this, "Please enter username, college, and major", Toast.LENGTH_LONG).show();
+            else
+            {
+                Toast.makeText(ProfileActivity.this, "Please upload your profile picture!", Toast.LENGTH_LONG).show();
+            }
+        }
+        else
+        {
+            Toast.makeText(ProfileActivity.this, "Please enter username, college, and major!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -176,22 +188,23 @@ public class ProfileActivity extends Activity
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(authUser.getCurrentUser().getUid());
         userDB.removeValue();
-                        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful())
-                                {
-                                    authUser.signOut();
-                                    Intent whereToGo = new Intent(ProfileActivity.this, LoginActivity.class);
-                                    ProfileActivity.this.finish();
-                                    startActivity(whereToGo);
-                                }
-                                else
-                                {
-                                    Toast.makeText(getApplicationContext(), "Account cannot be deleted!", Toast.LENGTH_LONG);
-                                }
-                            }
-                        });}
+        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful())
+                {
+                    authUser.signOut();
+                    Intent whereToGo = new Intent(ProfileActivity.this, LoginActivity.class);
+                    ProfileActivity.this.finish();
+                    startActivity(whereToGo);
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Account cannot be deleted!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
 
     private void selectPic()
     {
@@ -251,11 +264,10 @@ public class ProfileActivity extends Activity
             }
             else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE)
             {
-                Exception error = result.getError();
+                Toast.makeText(getApplicationContext(), "Error! Profile picture cannot be cropped!", Toast.LENGTH_LONG).show();
             }
         }
     }
-
 
     @Override
     public void onBackPressed(){
