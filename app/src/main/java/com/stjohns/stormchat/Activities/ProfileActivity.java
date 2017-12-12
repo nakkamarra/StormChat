@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
@@ -15,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,9 +35,9 @@ import com.stjohns.stormchat.R;
 
 public class ProfileActivity extends Activity
 {
-    private static final int REQUEST_CAMERA = 1;
-    private static final int SELECT_FILE = 2;
+    private static final int SELECT_FILE = 1;
     EditText userNameEditText, userStatusEditText, userCollegeEditText, userMajorEditText;
+    TextView emailAdd;
     ImageView userPic;
     ImageButton userChangeImage, saveProfilePage;
     Button deleteAccount;
@@ -64,6 +64,7 @@ public class ProfileActivity extends Activity
         userStatusEditText = findViewById(R.id.userProfileStatus);
         userCollegeEditText = findViewById(R.id.college_field);
         userMajorEditText = findViewById(R.id.major_field);
+        emailAdd=findViewById(R.id.email_address);
         userChangeImage = findViewById(R.id.userChangeImage);
         userPic = findViewById(R.id.userProfileImageView);
         saveProfilePage = findViewById(R.id.saveProfile);
@@ -72,10 +73,13 @@ public class ProfileActivity extends Activity
         authUser = FirebaseAuth.getInstance();
         userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(authUser.getCurrentUser().getUid());
 
-        userDB.addValueEventListener(new ValueEventListener() {
+        userDB.addValueEventListener(new ValueEventListener()
+        {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
+                String displayEmail=dataSnapshot.child("email").getValue(String.class);
+                emailAdd.setText(displayEmail);
                 String displayName=dataSnapshot.child("username").getValue(String.class);
                 userNameEditText.setText(displayName);
                 String displayStatus=dataSnapshot.child("status").getValue(String.class);
@@ -219,11 +223,11 @@ public class ProfileActivity extends Activity
             {
                 if (items[item].equals("Take Photo"))
                 {
-                    cameraIntent();
+                    selectCamera();
                 }
                 else if (items[item].equals("Choose from Device"))
                 {
-                    galleryIntent();
+                    selectLibrary();
                 }
                 else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
@@ -233,13 +237,12 @@ public class ProfileActivity extends Activity
         builder.show();
     }
 
-    private void cameraIntent()
+    private void selectCamera()
     {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
+        CropImage.activity().start(ProfileActivity.this);
     }
 
-    private void galleryIntent()
+    private void selectLibrary()
     {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
@@ -247,16 +250,16 @@ public class ProfileActivity extends Activity
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturndata)
     {
-        super.onActivityResult(requestCode, resultCode, data);
-        if ((requestCode == SELECT_FILE || requestCode==REQUEST_CAMERA) && resultCode == RESULT_OK)
+        super.onActivityResult(requestCode, resultCode, imageReturndata);
+        if ((requestCode == SELECT_FILE) && resultCode == RESULT_OK)
         {
-            CropImage.activity(data.getData()).start(ProfileActivity.this);
+            CropImage.activity(imageReturndata.getData()).start(ProfileActivity.this);
         }
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
         {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            CropImage.ActivityResult result = CropImage.getActivityResult(imageReturndata);
             if (resultCode == RESULT_OK)
             {
                 imageHoldUri = result.getUri();
@@ -268,6 +271,7 @@ public class ProfileActivity extends Activity
             }
         }
     }
+
 
     @Override
     public void onBackPressed(){
