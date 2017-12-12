@@ -65,7 +65,6 @@ public class HomeActivity extends AppCompatActivity  {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     chatList.add(d.getKey() + " :" + d.getValue());
                     arrayAdapter.notifyDataSetChanged();
-
                 }
             }
             @Override
@@ -88,6 +87,7 @@ public class HomeActivity extends AppCompatActivity  {
         showMenu.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         homeNavView = findViewById(R.id.home_nav_view);
+        homeNavView.bringToFront();
         homeNavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
