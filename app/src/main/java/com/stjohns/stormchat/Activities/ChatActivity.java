@@ -2,6 +2,7 @@ package com.stjohns.stormchat.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.hardware.input.InputManager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,7 +46,7 @@ public class ChatActivity extends Activity
             chatID = "0000";
 
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference("Messages");
+        reference = database.getReference("Chats").child(chatID).child("Messages");
 
         result = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.listView);
@@ -88,16 +89,19 @@ public class ChatActivity extends Activity
 
     public void sendButtonClicked(View view) {
         final String messageValue = userMessage.getText().toString().trim();
-
         final String date =  DateFormat.getDateTimeInstance().format(new Date());
         final String userName = "Maurice";
         mess = new Message(messageValue, date, userName);
+
         if (!TextUtils.isEmpty(messageValue)) {
             final DatabaseReference newPost = reference.push();
 //            newPost.child("Content").setValue(messageValue);
 //            newPost.child("Date").setValue(date);
 //            newPost.child("userName").setValue(userName);
             newPost.setValue(mess);
+            userMessage.setText("");
+            userMessage.clearFocus();
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -105,11 +109,6 @@ public class ChatActivity extends Activity
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                String content = ""+dataSnapshot.child("Content").getValue().toString();
-//                String date = ""+dataSnapshot.child("Date").getValue();
-//                String userName = ""+dataSnapshot.child("userName").getValue();
-//                mess = new Message(content, date, userName);
-//                result.add(new Message(content, date, userName));
                 result.add(dataSnapshot.getValue(Message.class));
                 adapter.notifyDataSetChanged();
             }
