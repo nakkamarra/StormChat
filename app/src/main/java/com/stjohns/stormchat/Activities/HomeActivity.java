@@ -6,6 +6,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -135,22 +137,26 @@ public class HomeActivity extends AppCompatActivity  {
             }
         });
 
-        ImageButton createChatButton = findViewById(R.id.messageWhite);
-        createChatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, CreateChatActivity.class));
-                HomeActivity.this.finish();
-            }
-        });
-
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_create_new_chat, menu);
+        return true;
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (showMenu.onOptionsItemSelected(item)) {
             return true;
         }
+        if (item.getItemId() == R.id.createChatButton){
+            startActivity(new Intent(HomeActivity.this, CreateChatActivity.class));
+            HomeActivity.this.finish();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

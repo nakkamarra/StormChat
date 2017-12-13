@@ -30,10 +30,8 @@ public class CreateChatActivity extends AppCompatActivity {
     ImageView sendButton;
     EditText messageArea;
     ScrollView scrollView;
-    FirebaseDatabase reference1, reference2=FirebaseDatabase.getInstance();
-
-    DatabaseReference ref1 = reference1.getReference("https://stormchatsju/");
-    DatabaseReference ref2 = reference2.getReference("https://stormchatsju/");
+    FirebaseDatabase reference1 = FirebaseDatabase.getInstance();
+    DatabaseReference ref1 = reference1.getReference();
 
 
     @Override
@@ -58,7 +56,7 @@ public class CreateChatActivity extends AppCompatActivity {
                     map.put("message", messageText);
                     map.put("user", User.class.getName());
                     ref1.push().setValue(map);
-                    ref2.push().setValue(map);
+//                    ref2.push().setValue(map);
                     messageArea.setText("");
                 }
             }
@@ -70,7 +68,7 @@ public class CreateChatActivity extends AppCompatActivity {
     {
         super.onStart();
         DatabaseReference ref1 = reference1.getReference("https://stormchatsju/");
-        DatabaseReference ref2 = reference2.getReference("https://stormchatsju/");
+//        DatabaseReference ref2 = reference2.getReference("https://stormchatsju/");
         ref1.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -147,4 +145,12 @@ public class CreateChatActivity extends AppCompatActivity {
         layout.addView(textView);
         scrollView.fullScroll(View.FOCUS_DOWN);
     }
+
+
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(CreateChatActivity.this, HomeActivity.class));
+        CreateChatActivity.this.finish();
+    }
+
 }
