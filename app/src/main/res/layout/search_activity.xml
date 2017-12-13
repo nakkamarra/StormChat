@@ -10,7 +10,8 @@
     <SearchView
         android:id="@+id/search_activity_search_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:queryHint="@string/search_hint">
 
     </SearchView>
 

@@ -70,7 +70,6 @@ public class ProfileActivity extends Activity
         saveProfilePage = findViewById(R.id.saveProfile);
         deleteAccount = findViewById(R.id.delete_account);
 
-        authUser = FirebaseAuth.getInstance();
         userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(authUser.getCurrentUser().getUid());
 
         userDB.addValueEventListener(new ValueEventListener()
@@ -98,20 +97,6 @@ public class ProfileActivity extends Activity
                 String error = result.getMessage();
                 Log.e("Database Error", error);
             }});
-
-        authUserListener = new FirebaseAuth.AuthStateListener()
-        {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
-            {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null)
-                {
-                    startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
-                    ProfileActivity.this.finish();
-                }
-            }
-        };
 
         appProgress = new ProgressDialog(this);
 
@@ -212,7 +197,7 @@ public class ProfileActivity extends Activity
 
     private void selectPic()
     {
-        final CharSequence[] items = {"Take Photo", "Choose from Device", "Cancel"};
+        final String[] items = {"Take Photo", "Choose from Device", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
         builder.setTitle("Add Photo!");
 

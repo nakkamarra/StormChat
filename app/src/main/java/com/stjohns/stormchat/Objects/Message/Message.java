@@ -5,27 +5,40 @@ package com.stjohns.stormchat.Objects.Message;
  */
 
 public class Message {
-    private String message;
-    private String timestamp;
+    private String content, date, user;
 
-    public Message(String message, String timestamp){
-        this.message = message;
-        this.timestamp = timestamp;
+    public Message() {
+
     }
 
-    public String getMessage() {
-        return message;
-    }
+        public Message(String content, String date, String user) {
+            this.content = content;
+            this.date = date;
+            this.user = user;
+        }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
-    public String getTimestamp() {
-        return timestamp;
-    }
+        public String getContent() {
+            return content;
+        }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public String getUser() {
+            return user;
+        }
+
+        public void setUser(String user) {
+            this.user = user;
+        }
 }

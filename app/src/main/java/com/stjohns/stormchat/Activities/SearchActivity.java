@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -35,18 +37,73 @@ public class SearchActivity extends Activity {
                 android.R.layout.simple_list_item_1,
                 list);
         lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedResult = adapterView.getItemAtPosition(i).toString();
+                String userID = selectedResult.substring(selectedResult.indexOf(":")+1);
+                Intent whereToGo = new Intent(SearchActivity.this, ForeignProfileActivity.class);
+                whereToGo.putExtra("userID", userID);
+                startActivity(whereToGo);
+            }
+        });
+
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                list.clear();
+                getSearchResults(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()){
+                    list.clear();
+                } else {
+                    list.clear();
+                    getSearchResults(newText);
+                }
+                return true;
+            }
+        });
+    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_search, menu);
+//        MenuItem item = menu.findItem(R.id.menuSearch);
+//        SearchView searchView = (SearchView)item.getActionView();
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                adapter.getFilter().filter(newText);
+//                return false;
+//            }
+//        });
+//        return super.onCreateOptionsMenu(menu);
+//    }
+
+    public void getSearchResults(final String search){
         userDB.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Log.e("Key", dataSnapshot.getKey());
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     if (d.getKey().equalsIgnoreCase("email")){
-                        if (d.getValue(String.class).contains("//////REPLACEWITHSEARCHTEXT//////")){
+                        if (d.getValue(String.class).contains(search)){
                             list.add(d.getValue(String.class));
                             adapter.notifyDataSetChanged();
                         }
                     } else if (d.getKey().equalsIgnoreCase("username")){
-                        if (d.getValue(String.class).contains("//////?REPLACE????//////")){
+                        if (d.getValue(String.class).contains(search)){
                             list.add(d.getValue(String.class) +" :"+ dataSnapshot.getKey());
                             adapter.notifyDataSetChanged();
                         }
@@ -75,28 +132,6 @@ public class SearchActivity extends Activity {
             }
         });
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_search, menu);
-//        MenuItem item = menu.findItem(R.id.menuSearch);
-//        SearchView searchView = (SearchView)item.getActionView();
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                adapter.getFilter().filter(newText);
-//                return false;
-//            }
-//        });
-//        return super.onCreateOptionsMenu(menu);
-//    }
 
     @Override
     public void onBackPressed(){
