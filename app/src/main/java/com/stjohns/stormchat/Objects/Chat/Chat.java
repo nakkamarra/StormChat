@@ -21,11 +21,11 @@ public class Chat {
         this.owner = owner;
     }
 
-    public ArrayList<Message> getConversation() {
+    public ArrayList<Message> getmessage() {
         return conversation;
     }
 
-    public void setConversation(ArrayList<Message> conversation) {
+    public void Messages(ArrayList<Message> conversation) {
         this.conversation = conversation;
     }
 
