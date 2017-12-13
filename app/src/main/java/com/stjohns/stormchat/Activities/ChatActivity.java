@@ -1,6 +1,7 @@
 package com.stjohns.stormchat.Activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,15 +24,12 @@ import java.util.List;
 
 public class ChatActivity extends Activity
 {
-
+    private String chatID;
     private EditText userMessage;
     private DatabaseReference reference;
     private FirebaseDatabase database;
-
     Message mess;
-
     private ArrayList<String> list = new ArrayList<>();
-
     private RecyclerView recyclerView;
     private UserAdapter adapter;
     private List<Message> result;
@@ -40,10 +38,14 @@ public class ChatActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_activity);
+        if (getIntent().getStringExtra("chatID") != null){
+            chatID = getIntent().getStringExtra("chatID");
+        }
+        else
+            chatID = "0000";
 
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("Messages");
-
 
         result = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.listView);
@@ -51,15 +53,10 @@ public class ChatActivity extends Activity
         LinearLayoutManager lin = new LinearLayoutManager(this);
         lin.setStackFromEnd(true);
         lin.setOrientation(LinearLayoutManager.VERTICAL);
-
         recyclerView.setLayoutManager(lin);
-
-
         adapter = new UserAdapter(result);
         recyclerView.setAdapter(adapter);
-
         updateList();
-
 //        mDatabase.addChildEventListener(new ChildEventListener() {
 //            @Override
 //            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -101,7 +98,6 @@ public class ChatActivity extends Activity
 //            newPost.child("Date").setValue(date);
 //            newPost.child("userName").setValue(userName);
             newPost.setValue(mess);
-
         }
     }
 
@@ -166,8 +162,8 @@ public class ChatActivity extends Activity
     }
 
     @Override
-    public void onStart()
-    {
-        super.onStart();
+    public void onBackPressed(){
+        startActivity(new Intent(ChatActivity.this, HomeActivity.class));
+        ChatActivity.this.finish();
     }
 }

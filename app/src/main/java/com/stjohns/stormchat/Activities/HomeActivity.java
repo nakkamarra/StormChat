@@ -1,9 +1,6 @@
 package com.stjohns.stormchat.Activities;
-import android.app.LoaderManager;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,16 +20,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.stjohns.stormchat.Objects.Chat.Chat;
-import com.stjohns.stormchat.Objects.User.User;
 import com.stjohns.stormchat.R;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class HomeActivity extends AppCompatActivity  {
     private ArrayList<String> chatList = new ArrayList<>();
@@ -55,15 +45,20 @@ public class HomeActivity extends AppCompatActivity  {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // To do : on click of item get ID from String, switch to chat activity, bundle ID as String with Intent.
+                String chatItem = adapterView.getItemAtPosition(i).toString();
+                String chatID = chatItem.substring(chatItem.indexOf(":")+1);
+                Intent whereToGo = new Intent(HomeActivity.this, ChatActivity.class);
+                whereToGo.putExtra("chatID", chatID);
+                startActivity(whereToGo);
             }
         });
+
         userDB = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid()).child("chats");
         userDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    chatList.add(d.getKey() + " :" + d.getValue());
+                    chatList.add(d.getValue() + " :" + d.getKey());
                     arrayAdapter.notifyDataSetChanged();
                 }
             }
@@ -141,7 +136,6 @@ public class HomeActivity extends AppCompatActivity  {
         });
 
         ImageButton createChatButton = findViewById(R.id.messageWhite);
-
         createChatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,8 +145,6 @@ public class HomeActivity extends AppCompatActivity  {
         });
 
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

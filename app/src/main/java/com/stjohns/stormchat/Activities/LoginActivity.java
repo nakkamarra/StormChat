@@ -199,5 +199,6 @@ public class LoginActivity extends Activity {
         database.child("college").setValue(u.getMajor());
         database.child("major").setValue(u.getMajor());
         database.child("imageurl").setValue(u.getImagePath());
+        database.child("chats").child("0000").setValue("The StormChat Default Chat");
     }
 }
