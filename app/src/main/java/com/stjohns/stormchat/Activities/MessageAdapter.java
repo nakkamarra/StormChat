@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.stjohns.stormchat.Objects.Message.Message;
 import com.stjohns.stormchat.R;
 
 import java.util.List;
@@ -14,23 +15,22 @@ import java.util.List;
  * Created by mbill740 on 12/10/2017.
  */
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder>{
+public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder>{
 
-    private List<Message> list;
+    private List<com.stjohns.stormchat.Objects.Message.Message> list;
 
-    public UserAdapter(List<Message> list) {
+    public MessageAdapter(List<com.stjohns.stormchat.Objects.Message.Message> list) {
         this.list = list;
     }
 
     @Override
-    public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new UserViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_message, parent, false));
+    public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new MessageViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_message, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(UserViewHolder holder, int position) {
+    public void onBindViewHolder(MessageViewHolder holder, int position) {
         Message message = list.get(position);
-
         holder.userName.setText(message.getUser());
         holder.messageText.setText(message.getContent()); // content has private access
         holder.date.setText(message.getDate());
@@ -41,11 +41,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return list.size();
     }
 
-    class UserViewHolder extends RecyclerView.ViewHolder {
+    class MessageViewHolder extends RecyclerView.ViewHolder {
 
         TextView messageText, date, userName;
 
-        public UserViewHolder(View itemView) {
+        public MessageViewHolder(View itemView) {
             super(itemView);
 
             messageText = itemView.findViewById(R.id.messageText);

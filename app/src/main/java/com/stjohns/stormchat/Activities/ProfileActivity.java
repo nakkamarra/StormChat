@@ -107,7 +107,7 @@ public class ProfileActivity extends Activity
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null)
                 {
-                    startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
+                    startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
                     ProfileActivity.this.finish();
                 }
             }

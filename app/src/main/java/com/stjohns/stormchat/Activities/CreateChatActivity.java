@@ -2,14 +2,15 @@ package com.stjohns.stormchat.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import com.google.firebase.database.ChildEventListener;
+import com.stjohns.stormchat.Objects.Chat.Chat;
 import com.stjohns.stormchat.Objects.User.User;
+import com.stjohns.stormchat.Objects.Message.Message;
 import com.stjohns.stormchat.R;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,6 +21,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,8 +35,9 @@ public class CreateChatActivity extends AppCompatActivity {
     EditText messageArea;
     ScrollView scrollView;
     FirebaseDatabase reference1 = FirebaseDatabase.getInstance();
-    DatabaseReference ref1 = reference1.getReference();
-
+    DatabaseReference ref1 = reference1.getReference("Chats");
+    Chat chat;
+    ArrayList<Message> a = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,19 @@ public class CreateChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String messageText = messageArea.getText().toString();
+                final String messageValue = messageText;
+                final String date =  DateFormat.getDateTimeInstance().format(new Date());
+                final String userName = "Maurice";
+                Message mess = new Message(messageValue, date, userName);
+                final DatabaseReference newPost = ref1.push();
+                newPost.setValue(messageText);
+                FirebaseDatabase reference2 = FirebaseDatabase.getInstance();
+                DatabaseReference ref2 = reference2.getReference("Chats").child(messageText);
+                final DatabaseReference newPost2 = ref2.push();
+
+                newPost2.setValue(mess);
+                //chat.Messages(new ArrayList<Message>());
+
 
                 if(!messageText.equals("")){
                     Map<String, String> map = new HashMap<String, String>();
