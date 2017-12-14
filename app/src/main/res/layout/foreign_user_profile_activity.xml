@@ -128,4 +128,16 @@
 
     </ImageButton>
 
+    <ImageButton
+        android:id="@+id/createChatButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="8dp"
+        android:layout_gravity="right"
+        android:background="@drawable/messagewhite"
+        android:scaleType="fitCenter">
+
+    </ImageButton>
+
+
 </LinearLayout>

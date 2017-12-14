@@ -5,9 +5,6 @@ import com.stjohns.stormchat.Objects.User.User;
 
 import java.util.ArrayList;
 
-/**
- * Created by nick on 11/6/17.
- */
 
 public class DirectChat extends Chat {
 

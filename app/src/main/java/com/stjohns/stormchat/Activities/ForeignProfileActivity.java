@@ -41,6 +41,14 @@ public class ForeignProfileActivity extends AppCompatActivity {
         final TextView userStatus = findViewById(R.id.userProfileStatus);
         final TextView userName = findViewById(R.id.profileTitle);
         ImageButton returnButton = findViewById(R.id.goBack);
+        ImageButton createChatButton = findViewById(R.id.createChatButton);
+
+        createChatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onChatPressed();
+            }
+        });
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +84,11 @@ public class ForeignProfileActivity extends AppCompatActivity {
         });
 
     }
+
+        public void onChatPressed(){
+        startActivity(new Intent(ForeignProfileActivity.this, CreateChatActivity.class));
+        ForeignProfileActivity.this.finish();
+        }
 
     @Override
     public void onBackPressed(){
